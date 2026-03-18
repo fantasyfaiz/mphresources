@@ -464,7 +464,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
 
   // ── HERO ──
   return (
-    <section className="relative min-h-screen w-full bg-white overflow-hidden">
+    <section className="relative min-h-screen w-full bg-white overflow-x-hidden overflow-y-hidden">
       {!prefersReducedMotion && (
         <div className="absolute inset-0 z-0">
           <div ref={blobRef} className="absolute w-32 h-32 rounded-full transition-colors duration-[2000ms] ease-in-out"

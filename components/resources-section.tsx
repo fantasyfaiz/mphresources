@@ -265,7 +265,7 @@ export function ResourcesSection() {
   const tabResources = allResources.filter(r => r.section === activeTab)
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white overflow-x-hidden">
       <div className="mb-8 px-4 md:px-8 lg:px-16">
         <h2 className="text-2xl md:text-3xl mb-1 text-[#2D2D2D]" style={{ fontFamily: "var(--font-fraunces, serif)", fontWeight: 400, letterSpacing: "-0.02em" }}>Explore Resources</h2>
         <p className="text-sm" style={{ color: COLORS.olive }}>Discover curated professional resources across the Muslim ecosystem</p>
