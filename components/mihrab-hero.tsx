@@ -50,8 +50,6 @@ type QuizAnswers = {
 type UserInfo = { firstName: string; email: string }
 
 export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
-  const blobRef = useRef<HTMLDivElement>(null)
-  const colorIndexRef = useRef(0)
   const [displayText, setDisplayText] = useState('')
   const [isTyping, setIsTyping] = useState(true)
   const [sentenceIndex, setSentenceIndex] = useState(0)
@@ -89,26 +87,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  useEffect(() => {
-    if (prefersReducedMotion) return
-    const blob = blobRef.current
-    if (!blob) return
-    let x = Math.random() * 60 + 20, y = Math.random() * 60 + 20
-    let vx = (Math.random() - 0.5) * 0.3, vy = (Math.random() - 0.5) * 0.3
-    const animate = () => {
-      x += vx; y += vy
-      if (x <= 10 || x >= 90) vx *= -1
-      if (y <= 10 || y >= 90) vy *= -1
-      blob.style.left = `${x}%`; blob.style.top = `${y}%`
-      requestAnimationFrame(animate)
-    }
-    animate()
-    const ci = setInterval(() => {
-      colorIndexRef.current = (colorIndexRef.current + 1) % colorArray.length
-      blob.style.backgroundColor = colorArray[colorIndexRef.current]
-    }, 3000)
-    return () => clearInterval(ci)
-  }, [prefersReducedMotion])
+
 
   useEffect(() => {
     const sentences = isMobile ? SEARCH_SENTENCES_MOBILE : SEARCH_SENTENCES_DESKTOP
