@@ -67,11 +67,10 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
       <div className="absolute inset-0 bg-black/50" />
       <div className="relative w-full max-w-lg p-6 shadow-xl z-10 rounded-xl overflow-hidden"
         onClick={e => e.stopPropagation()}
-        style={{ background: 'linear-gradient(145deg, #3d3d3d 0%, #2e2e2e 50%, #383838 100%)', boxShadow: '0 20px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)' }}>
-        <div className="absolute inset-0 pointer-events-none rounded-xl" style={{ background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.05) 60%, transparent 100%)' }} />
-        <div className="absolute inset-0 pointer-events-none rounded-xl" style={{ border: '1px solid rgba(255,255,255,0.08)' }} />
+        style={{ background: '#F5F0E8', boxShadow: '0 20px 60px rgba(0,0,0,0.15)' }}>
+        <div className="absolute inset-0 pointer-events-none rounded-xl" style={{ border: '1px solid rgba(0,0,0,0.06)' }} />
 
-        <button onClick={onClose} className="absolute top-4 right-4 p-1 text-gray-400 hover:text-gray-200 z-10">
+        <button onClick={onClose} className="absolute top-4 right-4 p-1 text-gray-400 hover:text-gray-700 z-10">
           <X className="w-5 h-5" />
         </button>
 
@@ -80,8 +79,8 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
             <Image src={resource.logo || '/placeholder.png'} alt={resource.name} width={48} height={48} unoptimized className="object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
           </div>
           <div>
-            <h2 className="font-semibold text-xl text-white">{resource.name}</h2>
-            <p className="text-sm text-gray-400 mt-0.5">{resource.subtitle}</p>
+            <h2 className="font-semibold text-xl text-gray-900">{resource.name}</h2>
+            <p className="text-sm text-gray-500 mt-0.5">{resource.subtitle}</p>
           </div>
         </div>
 
@@ -95,17 +94,17 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
         </div>
 
         <div className="relative mb-5 max-h-40 overflow-y-auto">
-          <p className="text-sm leading-relaxed text-gray-200">{resource.description}</p>
+          <p className="text-sm leading-relaxed text-gray-700">{resource.description}</p>
         </div>
 
         <div className="relative flex items-center gap-2 mb-5">
           <div className="w-2 h-2 rounded-full" style={{ backgroundColor: dotColor(resource), animation: 'flicker 2s ease-in-out infinite' }} />
-          <span className="text-sm text-gray-200">{dotLabel(resource)}</span>
+          <span className="text-sm text-gray-600">{dotLabel(resource)}</span>
         </div>
 
         {resource.link && (
           <a href={resource.link} target="_blank" rel="noopener noreferrer"
-            className="relative inline-flex items-center gap-1 text-sm font-medium text-gray-100 hover:text-white transition-colors">
+            className="relative inline-flex items-center gap-1 text-sm font-medium text-gray-800 hover:text-black transition-colors">
             Learn more <ArrowUpRight className="w-4 h-4" />
           </a>
         )}
@@ -121,10 +120,10 @@ function ResourceCard({ resource, isFirst, onCardClick }: { resource: CardResour
   }, [onCardClick])
 
   return (
-    <div className="flex-shrink-0 w-64 md:w-72 rounded-2xl overflow-hidden" style={{ backgroundColor: '#F3F4F6' }}>
+    <div className="flex-shrink-0 w-64 md:w-72">
       {/* Card image area */}
       <div
-        className="group relative aspect-[4/3] cursor-pointer overflow-hidden"
+        className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-xl"
         onClick={onCardClick}
         onKeyDown={handleKeyDown}
         tabIndex={0}
@@ -164,7 +163,7 @@ function ResourceCard({ resource, isFirst, onCardClick }: { resource: CardResour
       </div>
 
       {/* Below card content */}
-      <div className="px-3 pb-3 pt-2 space-y-2">
+      <div className="mt-3 space-y-2">
         <div>
           <h3 className="font-medium text-sm text-gray-900 leading-snug">{resource.name}</h3>
           <p className="text-xs text-gray-400 mt-0.5">{resource.subtitle}</p>
