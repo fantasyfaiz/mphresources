@@ -486,7 +486,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
               <ArrowUp className="w-3.5 h-3.5 md:w-4 md:h-4 text-white relative z-10" />
             </div>
           </div>
-          <p className="mt-1.5 text-xs text-center text-gray-400" style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)' }}>Click to find resources tailored to you</p>
+
         </div>
 
 

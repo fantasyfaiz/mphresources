@@ -55,6 +55,103 @@ const TABS: { label: string; short: string; icon: React.ElementType }[] = [
   { label: 'Other',                 short: 'Other',         icon: LayoutGrid },
 ]
 
+function SubmitModal({ onClose, defaultCategory }: { onClose: () => void; defaultCategory: string }) {
+  const [form, setForm] = React.useState({ name: '', link: '', category: defaultCategory, description: '', email: '' })
+  const [submitted, setSubmitted] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
+
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', h)
+    document.body.style.overflow = 'hidden'
+    return () => { document.removeEventListener('keydown', h); document.body.style.overflow = '' }
+  }, [onClose])
+
+  const handleSubmit = async () => {
+    if (!form.name.trim()) return
+    setLoading(true)
+    await supabase.from('submissions').insert({
+      name: form.name,
+      link: form.link,
+      category: form.category,
+      description: form.description,
+      submitted_by_email: form.email,
+    })
+    setLoading(false)
+    setSubmitted(true)
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}
+      style={{ backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }}>
+      <div className="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
+          <h2 className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-fraunces, serif)' }}>
+            {submitted ? 'Thank you!' : 'Submit a resource'}
+          </h2>
+          <button onClick={onClose} className="text-gray-300 hover:text-gray-500 transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {submitted ? (
+          <div className="px-6 py-8 text-center">
+            <p className="text-gray-600 text-sm mb-1">Your submission has been received.</p>
+            <p className="text-gray-400 text-xs">We review all submissions and add approved resources within a few days.</p>
+            <button onClick={onClose} className="mt-6 px-6 py-2.5 rounded-xl text-sm font-medium text-white"
+              style={{ backgroundColor: '#111111' }}>Done</button>
+          </div>
+        ) : (
+          <div className="px-6 py-5 flex flex-col gap-3">
+            <div>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">Resource name *</label>
+              <input type="text" placeholder="e.g. Muslim Finance Network"
+                value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 bg-gray-50" />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">Website link</label>
+              <input type="url" placeholder="https://"
+                value={form.link} onChange={e => setForm(p => ({ ...p, link: e.target.value }))}
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 bg-gray-50" />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">Category</label>
+              <select value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))}
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 bg-gray-50">
+                <option>Professional Networks</option>
+                <option>Entrepreneurship</option>
+                <option>Scholarships</option>
+                <option>Fellowships</option>
+                <option>Community</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">Short description</label>
+              <textarea placeholder="What is this resource and who is it for?"
+                value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
+                rows={2}
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 bg-gray-50 resize-none" />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">Your email (optional)</label>
+              <input type="email" placeholder="so we can follow up if needed"
+                value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 bg-gray-50" />
+            </div>
+            <button onClick={handleSubmit} disabled={!form.name.trim() || loading}
+              className="w-full py-3 rounded-xl text-sm font-medium text-white mt-1 transition-all"
+              style={{ backgroundColor: form.name.trim() ? '#111111' : '#e5e7eb', color: form.name.trim() ? 'white' : '#9ca3af' }}>
+              {loading ? 'Submitting...' : 'Submit resource →'}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function CardModal({ resource, onClose }: { resource: CardResource; onClose: () => void }) {
   useEffect(() => {
     const h = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -263,6 +360,8 @@ export function ResourcesSection() {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('Professional Networks')
   const [selectedResource, setSelectedResource] = useState<CardResource | null>(null)
+  const [submitOpen, setSubmitOpen] = useState(false)
+  const [submitCategory, setSubmitCategory] = useState('Professional Networks')
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -294,6 +393,22 @@ export function ResourcesSection() {
       <div className="mb-8 px-4 md:px-8 lg:px-16">
         <h2 className="text-2xl md:text-3xl mb-1 text-[#2D2D2D]" style={{ fontFamily: "var(--font-fraunces, serif)", fontWeight: 400, letterSpacing: "-0.02em" }}>Explore Resources</h2>
         <p className="text-sm" style={{ color: COLORS.olive }}>Discover curated professional resources across the Muslim ecosystem</p>
+      </div>
+
+      {/* Option C: slim banner below header */}
+      <div className="px-4 md:px-8 lg:px-16 mb-6">
+        <button
+          onClick={() => { setSubmitOpen(true) }}
+          className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:opacity-80"
+          style={{ backgroundColor: '#F5F0E8', border: '0.5px solid #ddd5c8' }}
+        >
+          <span className="text-sm" style={{ color: '#514B38' }}>
+            Know a resource we're missing?
+          </span>
+          <span className="text-sm font-medium" style={{ color: '#514B38' }}>
+            Submit it →
+          </span>
+        </button>
       </div>
 
       {/* Tab bar — desktop icon grid, mobile scrollable pills */}
@@ -379,11 +494,32 @@ export function ResourcesSection() {
               onCardClick={() => setSelectedResource(resource)}
             />
           ))}
+          {/* Option A: add resource card at end of carousel */}
+          <div className="flex-shrink-0 w-64 md:w-72">
+            <button
+              onClick={() => { setSubmitCategory(activeTab); setSubmitOpen(true) }}
+              className="group w-full aspect-[4/3] rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 transition-all hover:border-gray-400"
+              style={{ borderColor: '#d1d5db', backgroundColor: '#fafafa' }}
+            >
+              <div className="w-10 h-10 rounded-full flex items-center justify-center transition-all group-hover:bg-gray-100"
+                style={{ backgroundColor: '#f3f4f6' }}>
+                <span style={{ fontSize: 20, color: '#9ca3af', lineHeight: 1 }}>+</span>
+              </div>
+              <span className="text-xs font-medium text-gray-400 group-hover:text-gray-600 transition-colors">Add a resource</span>
+              <span className="text-xs text-gray-300">Takes 2 minutes</span>
+            </button>
+            <div className="mt-3 space-y-1">
+              <p className="text-sm font-medium text-gray-300">Know one we missed?</p>
+            </div>
+          </div>
         </div>
       )}
 
       {selectedResource && (
         <CardModal resource={selectedResource} onClose={() => setSelectedResource(null)} />
+      )}
+      {submitOpen && (
+        <SubmitModal onClose={() => setSubmitOpen(false)} defaultCategory={submitCategory} />
       )}
     </section>
   )
