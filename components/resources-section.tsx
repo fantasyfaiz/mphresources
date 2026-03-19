@@ -277,7 +277,7 @@ export function ResourcesSection() {
       <div className="mb-8">
 
         {/* Desktop only: full width icon tabs */}
-        <div className="hidden md:flex w-full border-b border-gray-100">
+        <div className="hidden md:flex w-full border-b border-gray-200">
           {TABS.map((tab) => {
             const TabIcon = tab.icon
             const isActive = activeTab === tab.label
@@ -286,13 +286,13 @@ export function ResourcesSection() {
                 key={tab.label}
                 onClick={() => { setActiveTab(tab.label); scrollRef.current?.scrollTo({ left: 0 }) }}
                 className="flex flex-col items-center justify-start gap-3 py-6 flex-1 transition-all duration-200 border-b-2"
-                style={{ borderBottomColor: isActive ? COLORS.navy : '#e5e7eb' }}
+                style={{ borderBottomColor: isActive ? '#111111' : 'transparent' }}
               >
                 <div className="flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-200"
-                  style={{ backgroundColor: isActive ? COLORS.navy : 'transparent' }}>
-                  <TabIcon className="w-6 h-6" style={{ color: isActive ? 'white' : '#c4c4c4' }} />
+                  style={{ backgroundColor: isActive ? '#E2E1DF' : 'transparent' }}>
+                  <TabIcon className="w-6 h-6" style={{ color: isActive ? '#111111' : '#aaaaaa' }} />
                 </div>
-                <span className="text-xs font-medium text-center px-1" style={{ color: isActive ? COLORS.navy : '#9ca3af', lineHeight: '1.3', whiteSpace: 'pre-line' }}>
+                <span className="text-xs font-medium text-center px-1" style={{ color: isActive ? '#111111' : '#aaaaaa', lineHeight: '1.3', whiteSpace: 'pre-line' }}>
                   {tab.label === 'Professional Networks' ? 'Professional
 Networks/Societies' : tab.label === 'Entrepreneurship' ? 'Entrepreneurship
 & Builders' : tab.label === 'Community' ? 'Other
@@ -322,9 +322,9 @@ Communities' : tab.label}
                     fontWeight: 500,
                     whiteSpace: 'nowrap',
                     border: '1px solid',
-                    backgroundColor: isActive ? COLORS.navy : 'white',
-                    color: isActive ? 'white' : '#6b7280',
-                    borderColor: isActive ? COLORS.navy : '#e5e7eb',
+                    backgroundColor: isActive ? '#E6EFF1' : 'white',
+                    color: isActive ? COLORS.teal : '#6b7280',
+                    borderColor: isActive ? COLORS.teal : '#e5e7eb',
                     transition: 'all 0.15s',
                   }}
                 >

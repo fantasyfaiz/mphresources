@@ -444,10 +444,20 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
   // ── HERO ──
   return (
     <section className="relative min-h-screen w-full bg-white overflow-x-hidden overflow-y-hidden">
-      {/* Static gradient background */}
-      <div className="absolute inset-0 z-0 pointer-events-none" style={{
-        background: 'linear-gradient(160deg, #dceaf0 0%, #ede8e0 40%, #ffffff 75%)',
-      }} />
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 z-0 pointer-events-none mph-gradient" />
+      <style>{`
+        @keyframes gradientShift {
+          0%   { background-position: 0% 50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .mph-gradient {
+          background: linear-gradient(135deg, #dceaf0, #ede8e0, #e8ddd4, #dceaf0, #f0e8e0);
+          background-size: 300% 300%;
+          animation: gradientShift 8s ease infinite;
+        }
+      `}</style>
       <div className="absolute inset-0 z-10" style={{ backgroundImage: 'url(/images/mihrab.png)', backgroundSize: '20px auto', backgroundRepeat: 'repeat', opacity: 1 }} />
       <div className="absolute bottom-0 left-0 right-0 h-48 z-10 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent, white)' }} />
 
