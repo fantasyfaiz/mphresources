@@ -121,10 +121,10 @@ function ResourceCard({ resource, isFirst, onCardClick }: { resource: CardResour
   }, [onCardClick])
 
   return (
-    <div className="flex-shrink-0 w-64 md:w-72">
+    <div className="flex-shrink-0 w-64 md:w-72 rounded-2xl overflow-hidden" style={{ backgroundColor: '#F3F4F6' }}>
       {/* Card image area */}
       <div
-        className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-xl"
+        className="group relative aspect-[4/3] cursor-pointer overflow-hidden"
         onClick={onCardClick}
         onKeyDown={handleKeyDown}
         tabIndex={0}
@@ -164,7 +164,7 @@ function ResourceCard({ resource, isFirst, onCardClick }: { resource: CardResour
       </div>
 
       {/* Below card content */}
-      <div className="mt-3 space-y-2">
+      <div className="px-3 pb-3 pt-2 space-y-2">
         <div>
           <h3 className="font-medium text-sm text-gray-900 leading-snug">{resource.name}</h3>
           <p className="text-xs text-gray-400 mt-0.5">{resource.subtitle}</p>
