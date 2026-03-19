@@ -471,24 +471,30 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
         </h1>
         <style jsx>{`@keyframes textShine { 0% { transform: translateX(-100%); } 40%, 100% { transform: translateX(100%); } }`}</style>
 
-        <div className="mt-8 md:mt-10 w-full px-2" style={{ maxWidth: "min(90vw, 900px)" }}>
-          <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 bg-white shadow-lg border border-gray-200 cursor-text"
-            onClick={() => setQuizOpen(true)}>
-            <div className="flex-1 relative min-w-0">
+        <div className="mt-8 md:mt-10 flex items-center gap-3 px-2" style={{ maxWidth: "min(90vw, 900px)", width: "100%" }}>
+          {/* Pill search bar */}
+          <div
+            className="flex-1 flex items-center px-5 bg-white cursor-text border border-gray-200"
+            style={{ borderRadius: '999px', height: '50px', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}
+            onClick={() => setQuizOpen(true)}
+          >
+            <div className="flex-1 relative min-w-0" style={{ height: '24px' }}>
               <div className="absolute inset-0 flex items-center pointer-events-none overflow-hidden">
-                <span className="text-gray-400 font-serif italic text-sm md:text-base truncate">
+                <span className="text-gray-400 italic text-sm truncate" style={{ fontFamily: 'var(--font-fraunces, serif)' }}>
                   {displayText}
-                  <span className="inline-block w-0.5 h-4 md:h-5 bg-gray-400 ml-0.5 animate-pulse align-middle" />
+                  <span className="inline-block w-0.5 h-4 bg-gray-400 ml-0.5 animate-pulse align-middle" />
                 </span>
               </div>
-              <div className="w-full h-8 md:h-10" />
-            </div>
-            <div className="relative p-2 md:p-3 shrink-0"
-              style={{ background: 'linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #252525 100%)', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
-              <ArrowUp className="w-3.5 h-3.5 md:w-4 md:h-4 text-white relative z-10" />
             </div>
           </div>
-
+          {/* Arrow button */}
+          <button
+            onClick={() => setQuizOpen(true)}
+            className="shrink-0 flex items-center justify-center"
+            style={{ width: '50px', height: '50px', borderRadius: '14px', background: '#111111' }}
+          >
+            <ArrowUp className="w-4 h-4 text-white" />
+          </button>
         </div>
 
 
