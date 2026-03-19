@@ -292,11 +292,8 @@ export function ResourcesSection() {
                   style={{ backgroundColor: isActive ? '#E2E1DF' : 'transparent' }}>
                   <TabIcon className="w-6 h-6" style={{ color: isActive ? '#111111' : '#aaaaaa' }} />
                 </div>
-                <span className="text-xs font-medium text-center px-1" style={{ color: isActive ? '#111111' : '#aaaaaa', lineHeight: '1.3', whiteSpace: 'pre-line' }}>
-                  {tab.label === 'Professional Networks' ? 'Professional
-Networks/Societies' : tab.label === 'Entrepreneurship' ? 'Entrepreneurship
-& Builders' : tab.label === 'Community' ? 'Other
-Communities' : tab.label}
+                <span className="text-xs font-medium text-center px-1" style={{ color: isActive ? '#111111' : '#aaaaaa', lineHeight: '1.3' }}>
+                  {tab.label === 'Professional Networks' ? (<>Professional<br/>Networks/Societies</>) : tab.label === 'Entrepreneurship' ? (<>Entrepreneurship<br/>&amp; Builders</>) : tab.label === 'Community' ? (<>Other<br/>Communities</>) : tab.label}
                 </span>
               </button>
             )
