@@ -165,7 +165,7 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
       <div className="absolute inset-0 bg-black/50" />
       <div className="relative w-full max-w-lg p-6 shadow-xl z-10 rounded-xl overflow-hidden"
         onClick={e => e.stopPropagation()}
-        style={{ background: '#F5F0E8', boxShadow: '0 20px 60px rgba(0,0,0,0.15)' }}>
+        style={{ background: '#E2E1DF', boxShadow: '0 20px 60px rgba(0,0,0,0.15)' }}>
         <div className="absolute inset-0 pointer-events-none rounded-xl" style={{ border: '1px solid rgba(0,0,0,0.06)' }} />
 
         <button onClick={onClose} className="absolute top-4 right-4 p-1 text-gray-400 hover:text-gray-700 z-10">
