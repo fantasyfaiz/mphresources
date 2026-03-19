@@ -87,7 +87,7 @@ function SubmitModal({ onClose, defaultCategory }: { onClose: () => void; defaul
       <div className="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
           <h2 className="text-lg font-medium text-gray-900" style={{ fontFamily: 'var(--font-fraunces, serif)' }}>
-            {submitted ? 'Thank you!' : 'Submit a resource'}
+            {submitted ? 'Thank you!' : 'Suggest a resource'}
           </h2>
           <button onClick={onClose} className="text-gray-300 hover:text-gray-500 transition-colors">
             <X className="w-5 h-5" />
@@ -143,7 +143,7 @@ function SubmitModal({ onClose, defaultCategory }: { onClose: () => void; defaul
             <button onClick={handleSubmit} disabled={!form.name.trim() || loading}
               className="w-full py-3 rounded-xl text-sm font-medium text-white mt-1 transition-all"
               style={{ backgroundColor: form.name.trim() ? '#111111' : '#e5e7eb', color: form.name.trim() ? 'white' : '#9ca3af' }}>
-              {loading ? 'Submitting...' : 'Submit resource →'}
+              {loading ? 'Submitting...' : 'Suggest resource →'}
             </button>
           </div>
         )}
@@ -299,6 +299,39 @@ function ResourceCard({ resource, isFirst, onCardClick }: { resource: CardResour
   )
 }
 
+function FlipWord({ words }: { words: string[] }) {
+  const [index, setIndex] = React.useState(0)
+  const [visible, setVisible] = React.useState(true)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false)
+      setTimeout(() => {
+        setIndex(i => (i + 1) % words.length)
+        setVisible(true)
+      }, 300)
+    }, 2200)
+    return () => clearInterval(interval)
+  }, [words.length])
+
+  return (
+    <span className="relative inline-block" style={{ minWidth: '140px' }}>
+      <span
+        style={{
+          display: 'inline-block',
+          transition: 'opacity 0.3s ease, transform 0.3s ease',
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(-8px)',
+          borderBottom: '2px solid #2D2D2D',
+          paddingBottom: '1px',
+        }}
+      >
+        {words[index]}
+      </span>
+    </span>
+  )
+}
+
 // Logo size overrides — default is 96px, use style prop for actual display
 const LOGO_SIZE: Record<string, number> = {
   // Professional Networks — slightly smaller
@@ -391,13 +424,17 @@ export function ResourcesSection() {
   return (
     <section className="py-16 bg-white overflow-x-hidden">
       <div className="mb-8 px-4 md:px-8 lg:px-16">
-        <h2 className="text-2xl md:text-3xl mb-1 text-[#2D2D2D]" style={{ fontFamily: "var(--font-fraunces, serif)", fontWeight: 400, letterSpacing: "-0.02em" }}>Explore Resources</h2>
+        <h2 className="text-2xl md:text-3xl mb-1 text-[#2D2D2D] flex items-baseline gap-2 flex-wrap" style={{ fontFamily: "var(--font-fraunces, serif)", fontWeight: 400, letterSpacing: "-0.02em" }}>
+          <span>Explore</span>
+          <FlipWord words={["Resources", "Networks", "Builders", "Fellowships", "Communities", "Scholarships"]} />
+        </h2>
         <p className="text-sm" style={{ color: COLORS.olive }}>Discover curated professional resources across the Muslim ecosystem</p>
       </div>
 
       {/* Option C: slim banner below header */}
       <div className="px-4 md:px-8 lg:px-16 mb-6">
         <button
+          id="suggest-resource-banner"
           onClick={() => { setSubmitOpen(true) }}
           className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:opacity-80"
           style={{ backgroundColor: '#F5F0E8', border: '0.5px solid #ddd5c8' }}
@@ -505,7 +542,7 @@ export function ResourcesSection() {
                 style={{ backgroundColor: '#f3f4f6' }}>
                 <span style={{ fontSize: 20, color: '#9ca3af', lineHeight: 1 }}>+</span>
               </div>
-              <span className="text-xs font-medium text-gray-400 group-hover:text-gray-600 transition-colors">Add a resource</span>
+              <span className="text-xs font-medium text-gray-400 group-hover:text-gray-600 transition-colors">Suggest a resource</span>
               <span className="text-xs text-gray-300">Takes 2 minutes</span>
             </button>
             <div className="mt-3 space-y-1">
