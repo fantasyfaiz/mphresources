@@ -271,9 +271,11 @@ export function ResourcesSection() {
         <p className="text-sm" style={{ color: COLORS.olive }}>Discover curated professional resources across the Muslim ecosystem</p>
       </div>
 
-      {/* Tab bar — full width evenly spaced like the design */}
-      <div className="mb-8 border-b border-gray-100">
-        <div className="flex w-full">
+      {/* Tab bar — desktop icon grid, mobile scrollable pills */}
+      <div className="mb-8">
+
+        {/* Desktop only: full width icon tabs */}
+        <div className="hidden md:flex w-full border-b border-gray-100">
           {TABS.map((tab) => {
             const TabIcon = tab.icon
             const isActive = activeTab === tab.label
@@ -284,24 +286,49 @@ export function ResourcesSection() {
                 className="flex flex-col items-center justify-start gap-3 py-6 flex-1 transition-all duration-200 border-b-2"
                 style={{ borderBottomColor: isActive ? COLORS.navy : '#e5e7eb' }}
               >
-                <div
-                  className="flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-200"
-                  style={{ backgroundColor: isActive ? COLORS.navy : 'transparent' }}
-                >
-                  <TabIcon
-                    className="w-6 h-6"
-                    style={{ color: isActive ? 'white' : '#c4c4c4' }}
-                  />
+                <div className="flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-200"
+                  style={{ backgroundColor: isActive ? COLORS.navy : 'transparent' }}>
+                  <TabIcon className="w-6 h-6" style={{ color: isActive ? 'white' : '#c4c4c4' }} />
                 </div>
-                <span
-                  className="text-xs font-medium text-center leading-tight px-1"
-                  style={{ color: isActive ? COLORS.navy : '#9ca3af' }}
-                >
-                  {tab.label === 'Professional Networks' ? 'Professional\nNetworks/Societies' : tab.label === 'Entrepreneurship' ? 'Entrepreneurship\n& Builders' : tab.label === 'Community' ? 'Other Communities' : tab.label}
+                <span className="text-xs font-medium text-center leading-tight px-1"
+                  style={{ color: isActive ? COLORS.navy : '#9ca3af' }}>
+                  {tab.label === 'Professional Networks' ? 'Professional Networks/Societies' : tab.label === 'Entrepreneurship' ? 'Entrepreneurship & Builders' : tab.label === 'Community' ? 'Other Communities' : tab.label}
                 </span>
               </button>
             )
           })}
+        </div>
+
+        {/* Mobile only: scrollable pill tabs */}
+        <div className="md:hidden px-4 pb-4 pt-1" style={{ overflowX: 'scroll', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
+          <div className="flex gap-3" style={{ width: 'max-content' }}>
+            {TABS.map((tab) => {
+              const isActive = activeTab === tab.label
+              const shortLabel = tab.label === 'Professional Networks' ? 'Networks' :
+                tab.label === 'Entrepreneurship' ? 'Builders' :
+                tab.label
+              return (
+                <button
+                  key={tab.label}
+                  onClick={() => { setActiveTab(tab.label); scrollRef.current?.scrollTo({ left: 0 }) }}
+                  style={{
+                    padding: '8px 22px',
+                    borderRadius: '999px',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    whiteSpace: 'nowrap',
+                    border: '1px solid',
+                    backgroundColor: isActive ? COLORS.navy : 'white',
+                    color: isActive ? 'white' : '#6b7280',
+                    borderColor: isActive ? COLORS.navy : '#e5e7eb',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  {shortLabel}
+                </button>
+              )
+            })}
+          </div>
         </div>
       </div>
 
