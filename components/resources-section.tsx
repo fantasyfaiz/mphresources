@@ -149,10 +149,13 @@ function ResourceCard({ resource, isFirst, onCardClick }: { resource: CardResour
           <Image
             src={resource.logo || '/placeholder.png'}
             alt={resource.name}
-            width={LOGO_SIZE[resource.name] || 96} height={LOGO_SIZE[resource.name] || 96}
+            width={128} height={128}
             unoptimized
             className="object-contain transition-transform duration-300 group-hover:scale-105"
-            style={{}}
+            style={{
+              width: `${LOGO_SIZE[resource.name] || 96}px`,
+              height: `${LOGO_SIZE[resource.name] || 96}px`,
+            }}
             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
           />
         </div>
@@ -199,24 +202,24 @@ function ResourceCard({ resource, isFirst, onCardClick }: { resource: CardResour
   )
 }
 
-// Logo size overrides — default is 96px
+// Logo size overrides — default is 96px, use style prop for actual display
 const LOGO_SIZE: Record<string, number> = {
-  // Professional Networks
-  "Muppies":                          64,
-  "Muslim Professionals":             64,
-  // Entrepreneurship
-  "Alif":                             116,
-  "b132":                             116,
-  "Pillars Fund":                     116,
-  // Scholarships
-  "Dr. Shakir Scholarship":           116,
-  "Razia Sheikh Scholarship":         116,
-  "AMANA Mutual Funds Scholarship":   116,
-  "Pillars Artist Fund":              116,
-  "Zakat Foundation Scholarship":     72,
+  // Professional Networks — slightly smaller
+  "Muppies":                          60,
+  "Muslim Professionals":             60,
+  // Entrepreneurship — slightly larger
+  "Alif":                             130,
+  "b132":                             130,
+  "Pillars Fund":                     130,
+  // Scholarships — larger for text-based logos
+  "Dr. Shakir Scholarship":           140,
+  "Razia Sheikh Scholarship":         140,
+  "AMANA Mutual Funds Scholarship":   140,
+  "Pillars Artist Fund":              140,
+  "Zakat Foundation Scholarship":     70,
   // Fellowships
-  "Iqra Fellowship":                  72,
-  "Muslim Public Service Network Fellowship": 116,
+  "Iqra Fellowship":                  68,
+  "Muslim Public Service Network Fellowship": 130,
 }
 
 // Logo filename map — maps resource name to exact filename in public/images/
