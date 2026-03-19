@@ -460,6 +460,8 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
       `}</style>
       <div className="absolute inset-0 z-10" style={{ backgroundImage: 'url(/images/mihrab.png)', backgroundSize: '20px auto', backgroundRepeat: 'repeat', opacity: 1 }} />
       <div className="absolute bottom-0 left-0 right-0 h-48 z-10 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent, white)' }} />
+      {/* Mobile only: top fade from white to transparent */}
+      <div className="md:hidden absolute top-0 left-0 right-0 h-32 z-10 pointer-events-none" style={{ background: 'linear-gradient(to bottom, white, transparent)' }} />
 
       <div className="relative z-20 flex flex-col items-center justify-center min-h-screen px-4 pt-20 pb-32">
 <h1 id="mph-headline" className="relative text-3xl md:text-5xl lg:text-6xl text-center px-2 text-[#2D2D2D]" style={{ fontFamily: "var(--font-fraunces, serif)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.2, paddingBottom: "0.1em" }}>
