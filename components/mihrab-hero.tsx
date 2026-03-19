@@ -444,21 +444,10 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
   // ── HERO ──
   return (
     <section className="relative min-h-screen w-full bg-white overflow-x-hidden overflow-y-hidden">
-      {!prefersReducedMotion && (
-        <div className="absolute inset-0 z-0">
-          <div ref={blobRef} className="absolute w-32 h-32 rounded-full transition-colors duration-[2000ms] ease-in-out"
-            style={{ backgroundColor: colorArray[0], opacity: 0.5, transform: 'translate(-50%, -50%)', filter: 'blur(40px)' }} />
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ mixBlendMode: 'overlay' }}>
-            <defs>
-              <filter id="grain">
-                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" stitchTiles="stitch" />
-                <feColorMatrix type="saturate" values="0" />
-              </filter>
-            </defs>
-            <rect width="100%" height="100%" filter="url(#grain)" opacity="0.5" />
-          </svg>
-        </div>
-      )}
+      {/* Static gradient background */}
+      <div className="absolute inset-0 z-0 pointer-events-none" style={{
+        background: 'linear-gradient(160deg, #dceaf0 0%, #ede8e0 40%, #ffffff 75%)',
+      }} />
       <div className="absolute inset-0 z-10" style={{ backgroundImage: 'url(/images/mihrab.png)', backgroundSize: '20px auto', backgroundRepeat: 'repeat', opacity: 1 }} />
       <div className="absolute bottom-0 left-0 right-0 h-48 z-10 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent, white)' }} />
 
