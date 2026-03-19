@@ -36,7 +36,8 @@ function dotLabel(r: CardResource): string {
     return 'Active'
   }
   if (r.members.includes('LinkedIn')) return '11.5k+ followers'
-  return r.members
+  if (r.members.includes('granted') || r.members.includes('fellows') || r.members.includes('companies')) return r.members
+  return `${r.members} members`
 }
 
 function dotColor(r: CardResource): string {
@@ -262,6 +263,8 @@ export function ResourcesSection() {
   }, [])
 
   const tabResources = allResources.filter(r => r.section === activeTab)
+  // Debug: log to confirm data is loading
+  // console.log('tabResources', tabResources.map(r => r.name))
 
   return (
     <section className="py-16 bg-white overflow-x-hidden">
@@ -289,9 +292,11 @@ export function ResourcesSection() {
                   style={{ backgroundColor: isActive ? COLORS.navy : 'transparent' }}>
                   <TabIcon className="w-6 h-6" style={{ color: isActive ? 'white' : '#c4c4c4' }} />
                 </div>
-                <span className="text-xs font-medium text-center leading-tight px-1"
-                  style={{ color: isActive ? COLORS.navy : '#9ca3af' }}>
-                  {tab.label === 'Professional Networks' ? 'Professional Networks/Societies' : tab.label === 'Entrepreneurship' ? 'Entrepreneurship & Builders' : tab.label === 'Community' ? 'Other Communities' : tab.label}
+                <span className="text-xs font-medium text-center px-1" style={{ color: isActive ? COLORS.navy : '#9ca3af', lineHeight: '1.3', whiteSpace: 'pre-line' }}>
+                  {tab.label === 'Professional Networks' ? 'Professional
+Networks/Societies' : tab.label === 'Entrepreneurship' ? 'Entrepreneurship
+& Builders' : tab.label === 'Community' ? 'Other
+Communities' : tab.label}
                 </span>
               </button>
             )
