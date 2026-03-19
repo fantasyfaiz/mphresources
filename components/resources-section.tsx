@@ -395,6 +395,12 @@ export function ResourcesSection() {
   const [selectedResource, setSelectedResource] = useState<CardResource | null>(null)
   const [submitOpen, setSubmitOpen] = useState(false)
   const [submitCategory, setSubmitCategory] = useState('Professional Networks')
+
+  useEffect(() => {
+    const handler = () => setSubmitOpen(true)
+    window.addEventListener('open-suggest-modal', handler)
+    return () => window.removeEventListener('open-suggest-modal', handler)
+  }, [])
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -429,23 +435,6 @@ export function ResourcesSection() {
           <FlipWord words={["Resources", "Networks", "Builders", "Fellowships", "Communities", "Scholarships"]} />
         </h2>
         <p className="text-sm" style={{ color: COLORS.olive }}>Discover curated professional resources across the Muslim ecosystem</p>
-      </div>
-
-      {/* Option C: slim banner below header */}
-      <div className="px-4 md:px-8 lg:px-16 mb-6">
-        <button
-          id="suggest-resource-banner"
-          onClick={() => { setSubmitOpen(true) }}
-          className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:opacity-80"
-          style={{ backgroundColor: '#F5F0E8', border: '0.5px solid #ddd5c8' }}
-        >
-          <span className="text-sm" style={{ color: '#514B38' }}>
-            Know a resource we're missing?
-          </span>
-          <span className="text-sm font-medium" style={{ color: '#514B38' }}>
-            Submit it →
-          </span>
-        </button>
       </div>
 
       {/* Tab bar — desktop icon grid, mobile scrollable pills */}

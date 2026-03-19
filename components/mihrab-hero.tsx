@@ -497,6 +497,24 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
           </button>
         </div>
 
+        {/* Suggest a resource — below search bar */}
+        <div className="mt-5" style={{ maxWidth: "min(90vw, 900px)", width: "100%", paddingLeft: "8px", paddingRight: "8px" }}>
+          <button
+            onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
+            className="w-full px-6 py-3 text-sm font-medium transition-all duration-200"
+            style={{
+              borderRadius: '999px',
+              border: '1px solid #d1d5db',
+              color: '#6b7280',
+              backgroundColor: 'transparent',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.04)' }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent' }}
+          >
+            Suggest a resource
+          </button>
+        </div>
+
 
       </div>
 
