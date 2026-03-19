@@ -149,7 +149,7 @@ function ResourceCard({ resource, isFirst, onCardClick }: { resource: CardResour
           <Image
             src={resource.logo || '/placeholder.png'}
             alt={resource.name}
-            width={96} height={96}
+            width={LOGO_SIZE[resource.name] || 96} height={LOGO_SIZE[resource.name] || 96}
             unoptimized
             className="object-contain transition-transform duration-300 group-hover:scale-105"
             style={{}}
@@ -197,6 +197,26 @@ function ResourceCard({ resource, isFirst, onCardClick }: { resource: CardResour
       </div>
     </div>
   )
+}
+
+// Logo size overrides — default is 96px
+const LOGO_SIZE: Record<string, number> = {
+  // Professional Networks
+  "Muppies":                          64,
+  "Muslim Professionals":             64,
+  // Entrepreneurship
+  "Alif":                             116,
+  "b132":                             116,
+  "Pillars Fund":                     116,
+  // Scholarships
+  "Dr. Shakir Scholarship":           116,
+  "Razia Sheikh Scholarship":         116,
+  "AMANA Mutual Funds Scholarship":   116,
+  "Pillars Artist Fund":              116,
+  "Zakat Foundation Scholarship":     72,
+  // Fellowships
+  "Iqra Fellowship":                  72,
+  "Muslim Public Service Network Fellowship": 116,
 }
 
 // Logo filename map — maps resource name to exact filename in public/images/
