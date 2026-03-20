@@ -7,7 +7,7 @@ function useFadeIn() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setVisible(true) },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     )
     if (ref.current) observer.observe(ref.current)
     return () => observer.disconnect()
@@ -131,7 +131,7 @@ export function InspireSection() {
           className="flex items-center justify-center pb-12 text-xs text-gray-300"
           style={{ fontFamily: "var(--font-host-grotesk, sans-serif)" }}
         >
-          © 2025 Muslim Professional Hub
+          © 2026 Muslim Professional Hub
         </div>
       </section>
     </>
