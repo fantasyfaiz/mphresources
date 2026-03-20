@@ -8,6 +8,7 @@ export default function Home() {
     <main>
       <MihrabHero onSearch={() => {}} />
       <ResourcesSection />
+      <InspireSection />
     </main>
   )
 }
