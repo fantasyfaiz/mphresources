@@ -28,6 +28,7 @@ const tagColors = [
 ]
 
 function dotLabel(r: CardResource): string {
+  if (r.name === 'Iqra Fellowship') return 'Applications closed'
   if (!r.members || r.members === 'N/A') {
     if (r.section === 'Scholarships') return 'Open applications'
     if (r.section === 'Fellowships')  return 'Accepting fellows'
@@ -37,10 +38,12 @@ function dotLabel(r: CardResource): string {
   }
   if (r.members.includes('LinkedIn')) return '11.5k+ followers'
   if (r.members.includes('granted') || r.members.includes('fellows') || r.members.includes('companies')) return r.members
+  if (r.members.toLowerCase().includes('member')) return r.members
   return `${r.members} members`
 }
 
 function dotColor(r: CardResource): string {
+  if (r.name === 'Iqra Fellowship') return '#9ca3af'
   if (r.section === 'Scholarships' || r.section === 'Fellowships') return COLORS.gold
   if (!r.members || r.members === 'N/A') return COLORS.lightTeal
   return '#4ade80'
@@ -192,7 +195,11 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
         </div>
 
         <div className="relative mb-5 max-h-40 overflow-y-auto">
-          <p className="text-sm leading-relaxed text-gray-700">{resource.description}</p>
+          <p className="text-sm leading-relaxed text-gray-700">
+            {resource.name === 'Alif'
+              ? 'Alif is a venture fund and community for Muslim founders. They invest in early-stage startups (up to $500k), connect founders with engineers, marketers, and designers through their network, and host events where you can meet other builders and find your first believers.'
+              : resource.description}
+          </p>
         </div>
 
         <div className="relative flex items-center gap-2 mb-5">
@@ -205,6 +212,41 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
             className="relative inline-flex items-center gap-1 text-sm font-medium text-gray-800 hover:text-black transition-colors">
             Learn more <ArrowUpRight className="w-4 h-4" />
           </a>
+        )}
+
+        {/* b132 founder */}
+        {resource.name === 'b132' && (
+          <div className="relative mt-4 pt-4 border-t border-gray-200">
+            <p className="text-xs text-gray-500 mb-1">Founder</p>
+            <a href="mailto:humayunz@umich.edu" className="text-sm font-medium text-gray-800 hover:text-black transition-colors flex items-center gap-1">
+              Zayd Humayun <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <p className="text-xs text-gray-400 mt-0.5">humayunz@umich.edu</p>
+          </div>
+        )}
+
+        {/* Iqra Fellowship contact */}
+        {resource.name === 'Iqra Fellowship' && (
+          <div className="relative mt-4 pt-4 border-t border-gray-200">
+            <p className="text-xs text-gray-500 mb-1">Questions?</p>
+            <a href="mailto:fellowship@bostonislamicseminary.org" className="text-sm font-medium text-gray-800 hover:text-black transition-colors flex items-center gap-1 break-all">
+              fellowship@bostonislamicseminary.org <ArrowUpRight className="w-3.5 h-3.5 flex-shrink-0" />
+            </a>
+          </div>
+        )}
+
+        {/* Alif links */}
+        {resource.name === 'Alif' && (
+          <div className="relative mt-4 pt-4 border-t border-gray-200 flex flex-col gap-2">
+            <a href="https://alif.build/portfolio" target="_blank" rel="noopener noreferrer"
+              className="text-sm font-medium text-gray-800 hover:text-black transition-colors flex items-center gap-1">
+              View portfolio companies <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <a href="https://www.linkedin.com/in/omarwaseem/" target="_blank" rel="noopener noreferrer"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-1">
+              Founder: Omar Waseem <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
         )}
         <style jsx>{`@keyframes flicker{0%,100%{opacity:1}50%{opacity:0.4}}`}</style>
       </div>
