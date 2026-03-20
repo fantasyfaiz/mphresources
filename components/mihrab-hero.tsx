@@ -580,9 +580,16 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
               <span key={li} style={{ display: 'block' }}>
                 {line.map((word, wi) => {
                   const i = li === 0 ? wi : 3 + wi
+                  const isFragmented = word === 'Fragmented'
                   return (
                     <span key={wi} style={{ display: 'inline' }}>
-                      <span style={{ animationDelay: `${i * 0.12}s`, display: 'inline-block' }}>{word}</span>
+                      <span style={{ animationDelay: `${i * 0.12}s`, display: 'inline-block' }}>
+                        {isFragmented
+                          ? word.split('').map((letter, li2) => (
+                              <span key={li2} className="frag-letter">{letter}</span>
+                            ))
+                          : word}
+                      </span>
                       {wi < line.length - 1 ? ' ' : ''}
                     </span>
                   )
@@ -604,6 +611,25 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
             opacity: 0;
             animation: wordReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           }
+          @keyframes letterScatter0 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(-9px,-6px);opacity:0.7} 85%{transform:translate(5px,8px);opacity:0.8} 92%{transform:translate(-3px,-4px);opacity:0.9} }
+          @keyframes letterScatter1 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(7px,-10px);opacity:0.6} 85%{transform:translate(-6px,5px);opacity:0.8} 92%{transform:translate(2px,-3px);opacity:0.9} }
+          @keyframes letterScatter2 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(-5px,11px);opacity:0.7} 85%{transform:translate(8px,-7px);opacity:0.75} 92%{transform:translate(-4px,2px);opacity:0.9} }
+          @keyframes letterScatter3 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(11px,6px);opacity:0.6} 85%{transform:translate(-7px,-9px);opacity:0.8} 92%{transform:translate(3px,4px);opacity:0.9} }
+          @keyframes letterScatter4 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(-8px,-12px);opacity:0.65} 85%{transform:translate(6px,7px);opacity:0.78} 92%{transform:translate(-2px,-3px);opacity:0.92} }
+          @keyframes letterScatter5 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(10px,9px);opacity:0.7} 85%{transform:translate(-9px,-5px);opacity:0.8} 92%{transform:translate(4px,2px);opacity:0.9} }
+          @keyframes letterScatter6 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(-6px,10px);opacity:0.6} 85%{transform:translate(7px,-8px);opacity:0.77} 92%{transform:translate(-3px,3px);opacity:0.9} }
+          @keyframes letterScatter7 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(8px,-7px);opacity:0.7} 85%{transform:translate(-5px,9px);opacity:0.8} 92%{transform:translate(2px,-4px);opacity:0.92} }
+          @keyframes letterScatter8 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(-11px,5px);opacity:0.65} 85%{transform:translate(9px,-6px);opacity:0.78} 92%{transform:translate(-4px,2px);opacity:0.9} }
+          .frag-letter { display:inline-block; animation-duration:5s; animation-timing-function:cubic-bezier(0.16,1,0.3,1); animation-iteration-count:infinite; }
+          .frag-letter:nth-child(1){animation-name:letterScatter0;animation-delay:2s}
+          .frag-letter:nth-child(2){animation-name:letterScatter1;animation-delay:2s}
+          .frag-letter:nth-child(3){animation-name:letterScatter2;animation-delay:2s}
+          .frag-letter:nth-child(4){animation-name:letterScatter3;animation-delay:2s}
+          .frag-letter:nth-child(5){animation-name:letterScatter4;animation-delay:2s}
+          .frag-letter:nth-child(6){animation-name:letterScatter5;animation-delay:2s}
+          .frag-letter:nth-child(7){animation-name:letterScatter6;animation-delay:2s}
+          .frag-letter:nth-child(8){animation-name:letterScatter7;animation-delay:2s}
+          .frag-letter:nth-child(9){animation-name:letterScatter8;animation-delay:2s}
         `}</style>
 
         <div className="mt-8 md:mt-10 flex items-center gap-3 px-2" style={{ maxWidth: "min(90vw, 900px)", width: "100%" }}>
@@ -649,7 +675,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
               src="/images/sketch-underline.png"
               alt=""
               aria-hidden="true"
-              style={{ display: 'block', width: isMobile ? '140px' : '160px', height: '20px', objectFit: 'fill', marginTop: '2px', opacity: 0.9 }}
+              style={{ display: 'block', width: isMobile ? '160px' : '170px', height: isMobile ? '28px' : '22px', objectFit: 'fill', marginTop: '4px', opacity: 0.9 }}
             />
           </button>
         </div>
