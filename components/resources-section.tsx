@@ -29,6 +29,7 @@ const tagColors = [
 
 function dotLabel(r: CardResource): string {
   if (r.name === 'Iqra Fellowship') return 'Applications closed'
+  if (r.name === 'Dr. Shakir Scholarship' || r.name === 'Razia Sheikh Scholarship') return 'Closes Apr 30'
   if (!r.members || r.members === 'N/A') {
     if (r.section === 'Scholarships') return 'Open applications'
     if (r.section === 'Fellowships')  return 'Accepting fellows'
@@ -44,6 +45,7 @@ function dotLabel(r: CardResource): string {
 
 function dotColor(r: CardResource): string {
   if (r.name === 'Iqra Fellowship') return '#9ca3af'
+  if (r.name === 'Dr. Shakir Scholarship' || r.name === 'Razia Sheikh Scholarship') return '#4ade80'
   if (r.section === 'Scholarships' || r.section === 'Fellowships') return COLORS.gold
   if (!r.members || r.members === 'N/A') return COLORS.lightTeal
   return '#4ade80'
