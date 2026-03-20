@@ -535,10 +535,12 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
             >
               Suggest a resource
             </span>
-            <svg viewBox="0 0 160 10" width="160" height="10" xmlns="http://www.w3.org/2000/svg" style={{ marginTop: '2px', display: 'block' }}>
-              <path d="M2 7 C 18 3, 35 8, 52 6 C 69 4, 85 8, 102 5.5 C 119 3, 136 7.5, 158 6" fill="none" stroke="#2D2D2D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.8" />
-              <path d="M4 8.5 C 22 6, 42 9.5, 60 7.5 C 78 5.5, 96 9, 114 7 C 132 5, 148 8, 158 7" fill="none" stroke="#2D2D2D" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" />
-            </svg>
+            <img
+              src="/images/sketch-underline.png"
+              alt=""
+              aria-hidden="true"
+              style={{ width: '145px', height: 'auto', marginTop: '0px', opacity: 0.9 }}
+            />
           </button>
         </div>
 
