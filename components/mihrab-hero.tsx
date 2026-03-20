@@ -42,10 +42,13 @@ const RESOURCE_TYPES = [
   'Fellowships', 'Community', 'Other',
 ]
 
+const GENDERS = ['Male', 'Female', 'Prefer not to say']
+
 type QuizAnswers = {
   careerFields: string[]
   cities: string[]
   resourceTypes: string[]
+  gender: string
 }
 type UserInfo = { firstName: string; email: string }
 
@@ -59,7 +62,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
   // quiz
   const [quizOpen, setQuizOpen] = useState(false)
   const [quizStep, setQuizStep] = useState(0) // 0,1,2 = questions; 3 = auth gate
-  const [answers, setAnswers] = useState<QuizAnswers>({ careerFields: [], cities: [], resourceTypes: [] })
+  const [answers, setAnswers] = useState<QuizAnswers>({ careerFields: [], cities: [], resourceTypes: [], gender: '' })
 
   // auth gate
   const [firstName, setFirstName] = useState('')
@@ -95,7 +98,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
       // If they clicked magic link and came back, close quiz and load results
-      if (session && quizOpen && quizStep === 3) {
+      if (session && quizOpen && quizStep === 4) {
         proceedToResults(session.user.email ?? '', session.user.user_metadata?.first_name ?? '')
       }
     })
@@ -132,29 +135,29 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
   }, [isTyping, sentenceIndex, isMobile])
 
   useEffect(() => {
-    if (chatEndRef.current) chatEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    // intentionally removed auto-scroll
   }, [resources, loading])
 
   const toggle = (arr: string[], item: string) =>
     arr.includes(item) ? arr.filter(i => i !== item) : [...arr, item]
 
   const canProceed = () => {
-    if (quizStep === 0) return answers.careerFields.length > 0
-    if (quizStep === 1) return answers.cities.length > 0
-    if (quizStep === 2) return answers.resourceTypes.length > 0
+    if (quizStep === 0) return answers.gender !== ''
+    if (quizStep === 1) return answers.careerFields.length > 0
+    if (quizStep === 2) return answers.cities.length > 0
+    if (quizStep === 3) return answers.resourceTypes.length > 0
     return false
   }
 
   const handleNext = () => {
-    if (quizStep < 2) setQuizStep(s => s + 1)
+    if (quizStep < 3) setQuizStep(s => s + 1)
     else {
-      // If already logged in, skip auth gate
       if (session) {
         const name = session.user.user_metadata?.first_name ?? ''
         const email = session.user.email ?? ''
         proceedToResults(email, name)
       } else {
-        setQuizStep(3)
+        setQuizStep(4)
       }
     }
   }
@@ -244,6 +247,8 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
     }
 
     const filtered = (data as Resource[]).filter(r => {
+      // Filter gender-specific resources
+      if (r.name === 'Muslim Women Professionals' && answers.gender === 'Male') return false
       const matchesType = answers.resourceTypes.some(t =>
         r.section?.toLowerCase().includes(t.toLowerCase())
       )
@@ -277,7 +282,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
 
   const resetSearch = () => {
     setShowResults(false); setQuizOpen(false); setQuizStep(0)
-    setAnswers({ careerFields: [], cities: [], resourceTypes: [] })
+    setAnswers({ careerFields: [], cities: [], resourceTypes: [], gender: '' })
     setFirstName(''); setAuthEmail(''); setAuthError(''); setMagicSent(false); setOtpCode('')
     setResources([]); setIntroText(''); setUserInfo(null)
     setShowCareerDrop(false); setShowCityDrop(false)
@@ -285,9 +290,10 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
   }
 
   const steps = [
-    { key: 'careerFields' as const, question: 'What are your career interests?', hint: 'Pick all that apply', items: CAREER_FIELDS },
-    { key: 'cities' as const, question: 'Which cities or regions interest you?', hint: 'Where are you based or looking?', items: CITIES },
-    { key: 'resourceTypes' as const, question: 'What type of resources are you looking for?', hint: 'Pick all that apply', items: RESOURCE_TYPES },
+    { key: 'gender' as const, question: 'How do you identify?', hint: 'This helps us show you the most relevant resources', items: GENDERS, single: true },
+    { key: 'careerFields' as const, question: 'What are your career interests?', hint: 'Pick all that apply', items: CAREER_FIELDS, single: false },
+    { key: 'cities' as const, question: 'Which cities or regions interest you?', hint: 'Where are you based or looking?', items: CITIES, single: false },
+    { key: 'resourceTypes' as const, question: 'What type of resources are you looking for?', hint: 'Pick all that apply', items: RESOURCE_TYPES, single: false },
   ]
 
   const initials = userInfo
@@ -302,6 +308,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
 
     return (
       <div className="min-h-screen bg-white flex flex-col">
+        <style>{`@keyframes fadeSlideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }`}</style>
         {/* Sticky header */}
         <div className="sticky top-0 z-20 bg-white border-b border-gray-100 px-4 md:px-6 py-3">
           <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
@@ -465,15 +472,38 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
                 )}
               </p>
 
-              {Object.entries(grouped).map(([section, sectionResources]) => (
+              {Object.entries(grouped).map(([section, sectionResources], sIdx) => (
                 <div key={section} className="flex flex-col gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className="h-px flex-1 bg-gray-100" />
-                    <span className="text-xs font-medium tracking-widest uppercase text-gray-400">{section}</span>
-                    <div className="h-px flex-1 bg-gray-100" />
+                  <div
+                    className="mt-4 mb-1"
+                    style={{
+                      opacity: 0,
+                      animation: `fadeSlideUp 0.6s cubic-bezier(0.16,1,0.3,1) ${sIdx * 0.1}s forwards`,
+                    }}
+                  >
+                    <h2
+                      style={{
+                        fontFamily: "var(--font-fraunces, serif)",
+                        fontWeight: 400,
+                        fontSize: '1.6rem',
+                        letterSpacing: '-0.02em',
+                        color: '#1a1a1a',
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {section}
+                    </h2>
+                    <div style={{ height: '2px', width: '32px', backgroundColor: '#2E5A6C', marginTop: '6px', borderRadius: '1px' }} />
                   </div>
-                  {sectionResources.map(r => (
-                    <div key={r.id} className="border border-gray-100 rounded-2xl p-4 hover:border-gray-200 transition-colors">
+                  {sectionResources.map((r, rIdx) => (
+                    <div
+                      key={r.id}
+                      className="border border-gray-100 rounded-2xl p-4 hover:border-gray-200 transition-colors"
+                      style={{
+                        opacity: 0,
+                        animation: `fadeSlideUp 0.5s cubic-bezier(0.16,1,0.3,1) ${sIdx * 0.1 + rIdx * 0.06 + 0.1}s forwards`,
+                      }}
+                    >
                       <div className="flex items-start justify-between gap-3 mb-2">
                         <div>
                           <span className="font-medium text-gray-900">{r.name}</span>
@@ -636,29 +666,38 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
             {/* Header with progress */}
             <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
               <div className="flex items-center gap-2">
-                {[0, 1, 2, 3].map(i => (
+                {[0, 1, 2, 3, 4].map(i => (
                   <div key={i} className="h-1.5 rounded-full transition-all duration-300"
                     style={{ width: i === quizStep ? '28px' : '8px', backgroundColor: i <= quizStep ? COLORS.teal : '#e5e7eb' }} />
                 ))}
-                <span className="ml-2 text-xs text-gray-400">{quizStep + 1} of 4</span>
+                <span className="ml-2 text-xs text-gray-400">{quizStep + 1} of 5</span>
               </div>
               <button onClick={() => setQuizOpen(false)} className="text-gray-300 hover:text-gray-500 transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Quiz steps 0-2 */}
-            {quizStep < 3 && (
+            {/* Quiz steps 0-3 */}
+            {quizStep < 4 && (
               <>
                 <div className="px-6 pt-5 pb-4">
                   <h2 className="text-xl font-serif font-semibold text-gray-900 mb-1">{steps[quizStep].question}</h2>
                   <p className="text-sm text-gray-400 mb-4">{steps[quizStep].hint}</p>
                   <div className="flex flex-wrap gap-2 max-h-56 overflow-y-auto pr-1">
                     {steps[quizStep].items.map(item => {
-                      const selected = answers[steps[quizStep].key].includes(item)
+                      const isSingle = steps[quizStep].single
+                      const selected = isSingle
+                        ? answers.gender === item
+                        : (answers[steps[quizStep].key] as string[]).includes(item)
                       return (
                         <button key={item}
-                          onClick={() => setAnswers(prev => ({ ...prev, [steps[quizStep].key]: toggle(prev[steps[quizStep].key], item) }))}
+                          onClick={() => {
+                            if (isSingle) {
+                              setAnswers(prev => ({ ...prev, gender: item }))
+                            } else {
+                              setAnswers(prev => ({ ...prev, [steps[quizStep].key]: toggle(prev[steps[quizStep].key] as string[], item) }))
+                            }
+                          }}
                           className="px-3 py-2 rounded-full text-sm transition-all duration-150 border font-medium"
                           style={{ backgroundColor: selected ? COLORS.teal : 'white', color: selected ? 'white' : '#374151', borderColor: selected ? COLORS.teal : '#e5e7eb' }}>
                           {item}
@@ -682,8 +721,8 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
               </>
             )}
 
-            {/* Step 3: OTP auth gate */}
-            {quizStep === 3 && (
+            {/* Step 4: OTP auth gate */}
+            {quizStep === 4 && (
               <>
                 <div className="px-6 pt-6 pb-4">
                   {!magicSent ? (
