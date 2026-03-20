@@ -663,7 +663,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
         </div>
 
         {/* Suggest a resource — sketchy underline */}
-        <div className="mt-4">
+        <div className="mt-4" style={{ marginTop: '21px' }}>
           <button
             onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
             style={{ background: 'none', border: 'none', cursor: 'pointer', transition: 'opacity 0.2s ease', display: 'inline-flex', flexDirection: 'column', alignItems: 'center' }}
@@ -671,7 +671,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
           >
             <span
-              style={{ fontFamily: "'Amiri', serif", color: '#2D2D2D', letterSpacing: '0.02em', fontWeight: 700, fontSize: isMobile ? '17px' : '19px', lineHeight: 1, display: 'block' }}
+              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', fontWeight: 600, fontSize: isMobile ? '14px' : '16px', lineHeight: 1, display: 'block', position: 'relative', top: '5px' }}
             >
               Suggest a resource
             </span>
