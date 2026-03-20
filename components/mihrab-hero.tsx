@@ -466,10 +466,17 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
       <div className="relative z-20 flex flex-col items-center justify-center min-h-screen px-4 pt-20 pb-32">
 <h1 id="mph-headline" className="relative text-3xl md:text-5xl lg:text-6xl text-center px-2 text-[#2D2D2D]" style={{ fontFamily: "var(--font-fraunces, serif)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.2, paddingBottom: "0.1em" }}>
           <span className="relative z-10 word-reveal">
-            {'Connecting the Fragmented Muslim Professional Ecosystem'.split(' ').map((word, i) => (
-              <span key={i} style={{ display: 'inline' }}>
-                <span style={{ animationDelay: `${i * 0.12}s`, display: 'inline-block' }}>{word}</span>
-                {' '}
+            {[['Connecting', 'the', 'Fragmented'], ['Muslim', 'Professional', 'Ecosystem']].map((line, li) => (
+              <span key={li} style={{ display: 'block' }}>
+                {line.map((word, wi) => {
+                  const i = li === 0 ? wi : 3 + wi
+                  return (
+                    <span key={wi} style={{ display: 'inline' }}>
+                      <span style={{ animationDelay: `${i * 0.12}s`, display: 'inline-block' }}>{word}</span>
+                      {wi < line.length - 1 ? ' ' : ''}
+                    </span>
+                  )
+                })}
               </span>
             ))}
           </span>
