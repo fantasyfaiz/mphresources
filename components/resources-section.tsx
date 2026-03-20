@@ -225,6 +225,15 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
           </a>
         )}
 
+        {/* Location badge for community cards */}
+        {resource.section === 'Community' && resource.location && (
+          <div className="relative mt-4 pt-4 border-t border-gray-200">
+            <p className="text-xs text-gray-400" style={{ fontFamily: "var(--font-host-grotesk, sans-serif)" }}>
+              📍 {resource.location.split(';').map((l: string) => l.trim()).join(' & ')}
+            </p>
+          </div>
+        )}
+
         {/* Muppies extra links */}
         {resource.name === 'Muppies' && (
           <div className="relative mt-4 pt-4 border-t border-gray-200 flex flex-col gap-2">
@@ -288,7 +297,6 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
         {/* Taleef Collective media link */}
         {resource.name === 'Taleef Collective' && (
           <div className="relative mt-4 pt-4 border-t border-gray-200 flex flex-col gap-2">
-            <p className="text-xs text-gray-400" style={{ fontFamily: "var(--font-host-grotesk, sans-serif)" }}>📍 Chicago, IL &amp; Fremont, CA</p>
             <a href="https://www.taleefcollective.org/media" target="_blank" rel="noopener noreferrer"
               className="text-sm font-medium text-gray-800 hover:text-black transition-colors flex items-center gap-1">
               Featured talks &amp; media <ArrowUpRight className="w-3.5 h-3.5" />
@@ -559,7 +567,7 @@ export function ResourcesSection() {
       })
   }, [])
 
-  const tabResources = allResources.filter(r => r.section === activeTab)
+  const tabResources = allResources.filter(r => r.section === activeTab && r.name !== 'MSA')
   // Debug: log to confirm data is loading
   // console.log('tabResources', tabResources.map(r => r.name))
 
