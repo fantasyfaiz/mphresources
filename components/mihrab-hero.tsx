@@ -606,30 +606,33 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
             0% { opacity: 0; transform: translateY(20px); filter: blur(4px); }
             100% { opacity: 1; transform: translateY(0); filter: blur(0); }
           }
-          .word-reveal span {
+          .word-reveal span:not(.frag-letter) {
             display: inline-block;
             opacity: 0;
             animation: wordReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           }
-          @keyframes letterScatter0 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(-9px,-6px);opacity:0.7} 85%{transform:translate(5px,8px);opacity:0.8} 92%{transform:translate(-3px,-4px);opacity:0.9} }
-          @keyframes letterScatter1 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(7px,-10px);opacity:0.6} 85%{transform:translate(-6px,5px);opacity:0.8} 92%{transform:translate(2px,-3px);opacity:0.9} }
-          @keyframes letterScatter2 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(-5px,11px);opacity:0.7} 85%{transform:translate(8px,-7px);opacity:0.75} 92%{transform:translate(-4px,2px);opacity:0.9} }
-          @keyframes letterScatter3 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(11px,6px);opacity:0.6} 85%{transform:translate(-7px,-9px);opacity:0.8} 92%{transform:translate(3px,4px);opacity:0.9} }
-          @keyframes letterScatter4 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(-8px,-12px);opacity:0.65} 85%{transform:translate(6px,7px);opacity:0.78} 92%{transform:translate(-2px,-3px);opacity:0.92} }
-          @keyframes letterScatter5 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(10px,9px);opacity:0.7} 85%{transform:translate(-9px,-5px);opacity:0.8} 92%{transform:translate(4px,2px);opacity:0.9} }
-          @keyframes letterScatter6 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(-6px,10px);opacity:0.6} 85%{transform:translate(7px,-8px);opacity:0.77} 92%{transform:translate(-3px,3px);opacity:0.9} }
-          @keyframes letterScatter7 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(8px,-7px);opacity:0.7} 85%{transform:translate(-5px,9px);opacity:0.8} 92%{transform:translate(2px,-4px);opacity:0.92} }
-          @keyframes letterScatter8 { 0%,72%,100%{transform:translate(0,0);opacity:1} 78%{transform:translate(-11px,5px);opacity:0.65} 85%{transform:translate(9px,-6px);opacity:0.78} 92%{transform:translate(-4px,2px);opacity:0.9} }
-          .frag-letter { display:inline-block; animation-duration:5s; animation-timing-function:cubic-bezier(0.16,1,0.3,1); animation-iteration-count:infinite; }
-          .frag-letter:nth-child(1){animation-name:letterScatter0;animation-delay:2s}
-          .frag-letter:nth-child(2){animation-name:letterScatter1;animation-delay:2s}
-          .frag-letter:nth-child(3){animation-name:letterScatter2;animation-delay:2s}
-          .frag-letter:nth-child(4){animation-name:letterScatter3;animation-delay:2s}
-          .frag-letter:nth-child(5){animation-name:letterScatter4;animation-delay:2s}
-          .frag-letter:nth-child(6){animation-name:letterScatter5;animation-delay:2s}
-          .frag-letter:nth-child(7){animation-name:letterScatter6;animation-delay:2s}
-          .frag-letter:nth-child(8){animation-name:letterScatter7;animation-delay:2s}
-          .frag-letter:nth-child(9){animation-name:letterScatter8;animation-delay:2s}
+          @keyframes letterScatter0 { 0%,70%,100%{transform:translate(0,0)} 78%{transform:translate(-11px,-8px)} 86%{transform:translate(6px,10px)} 94%{transform:translate(-3px,-4px)} }
+          @keyframes letterScatter1 { 0%,70%,100%{transform:translate(0,0)} 78%{transform:translate(9px,-12px)} 86%{transform:translate(-7px,6px)} 94%{transform:translate(3px,-3px)} }
+          @keyframes letterScatter2 { 0%,70%,100%{transform:translate(0,0)} 78%{transform:translate(-6px,13px)} 86%{transform:translate(10px,-8px)} 94%{transform:translate(-4px,3px)} }
+          @keyframes letterScatter3 { 0%,70%,100%{transform:translate(0,0)} 78%{transform:translate(13px,7px)} 86%{transform:translate(-9px,-11px)} 94%{transform:translate(4px,4px)} }
+          @keyframes letterScatter4 { 0%,70%,100%{transform:translate(0,0)} 78%{transform:translate(-10px,-14px)} 86%{transform:translate(7px,9px)} 94%{transform:translate(-3px,-3px)} }
+          @keyframes letterScatter5 { 0%,70%,100%{transform:translate(0,0)} 78%{transform:translate(12px,10px)} 86%{transform:translate(-11px,-6px)} 94%{transform:translate(5px,2px)} }
+          @keyframes letterScatter6 { 0%,70%,100%{transform:translate(0,0)} 78%{transform:translate(-7px,12px)} 86%{transform:translate(9px,-9px)} 94%{transform:translate(-4px,3px)} }
+          @keyframes letterScatter7 { 0%,70%,100%{transform:translate(0,0)} 78%{transform:translate(10px,-9px)} 86%{transform:translate(-6px,11px)} 94%{transform:translate(2px,-5px)} }
+          @keyframes letterScatter8 { 0%,70%,100%{transform:translate(0,0)} 78%{transform:translate(-13px,6px)} 86%{transform:translate(11px,-7px)} 94%{transform:translate(-5px,2px)} }
+          .frag-letter {
+            display: inline-block;
+            opacity: 1;
+          }
+          .frag-letter:nth-child(1){animation:letterScatter0 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
+          .frag-letter:nth-child(2){animation:letterScatter1 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
+          .frag-letter:nth-child(3){animation:letterScatter2 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
+          .frag-letter:nth-child(4){animation:letterScatter3 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
+          .frag-letter:nth-child(5){animation:letterScatter4 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
+          .frag-letter:nth-child(6){animation:letterScatter5 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
+          .frag-letter:nth-child(7){animation:letterScatter6 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
+          .frag-letter:nth-child(8){animation:letterScatter7 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
+          .frag-letter:nth-child(9){animation:letterScatter8 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
         `}</style>
 
         <div className="mt-8 md:mt-10 flex items-center gap-3 px-2" style={{ maxWidth: "min(90vw, 900px)", width: "100%" }}>
