@@ -557,7 +557,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
       {/* Animated gradient background */}
       <div className="absolute inset-0 z-0 pointer-events-none mph-gradient" />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap');
         @keyframes gradientShift {
           0%   { background-position: 0% 50%; }
           50%  { background-position: 100% 50%; }
@@ -671,7 +671,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
           >
             <span
-              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', fontWeight: 600, fontSize: isMobile ? '14px' : '16px', lineHeight: 1, display: 'block' }}
+              style={{ fontFamily: "'Amiri', serif", color: '#2D2D2D', letterSpacing: '0.02em', fontWeight: 700, fontSize: isMobile ? '17px' : '19px', lineHeight: 1, display: 'block' }}
             >
               Suggest a resource
             </span>
