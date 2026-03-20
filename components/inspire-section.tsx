@@ -15,6 +15,72 @@ function useFadeIn() {
   return { ref, visible }
 }
 
+const FAQS = [
+  {
+    q: "What is Muslim Professional Hub?",
+    a: "MPH is a curated discovery platform that connects Muslim professionals to organizations, scholarships, fellowships, and entrepreneurial resources across industries. We do the research so you don't have to.",
+  },
+  {
+    q: "Is this free to use?",
+    a: "Yes, completely free. MPH is a community resource built to serve Muslim professionals at every stage of their career.",
+  },
+  {
+    q: "How do I find resources that are relevant to me?",
+    a: "Click the search bar on the homepage and take the short quiz — it asks about your career field, city, and what type of resource you're looking for. We'll show you a personalized list based on your answers.",
+  },
+  {
+    q: "Can I suggest a resource that isn't listed?",
+    a: "Absolutely. Hit the 'Suggest a resource' button anywhere on the page and fill out the short form. We review all submissions and add approved resources within a few days.",
+  },
+  {
+    q: "Who built this?",
+    a: "MPH was built by Faiz Ahmed, a Muslim professional who wanted to make it easier for the community to find each other and the opportunities available to them.",
+  },
+  {
+    q: "How do I stay updated when new resources are added?",
+    a: "Join the Discord or follow us on Instagram (@mphhh) — we announce new resources and updates there regularly.",
+  },
+]
+
+function FAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div
+      className="border-t border-gray-200 py-5 cursor-pointer"
+      onClick={() => setOpen(o => !o)}
+    >
+      <div className="flex items-center justify-between gap-4">
+        <span
+          className="text-base md:text-lg text-gray-900"
+          style={{ fontFamily: "var(--font-fraunces, serif)", fontWeight: 400, letterSpacing: "-0.01em" }}
+        >
+          {q}
+        </span>
+        <span
+          className="text-2xl shrink-0 text-gray-400 transition-transform duration-300"
+          style={{ transform: open ? 'rotate(45deg)' : 'rotate(0deg)', lineHeight: 1 }}
+        >
+          +
+        </span>
+      </div>
+      <div
+        style={{
+          maxHeight: open ? '200px' : '0px',
+          overflow: 'hidden',
+          transition: 'max-height 0.35s cubic-bezier(0.16,1,0.3,1)',
+        }}
+      >
+        <p
+          className="mt-3 text-sm md:text-base leading-relaxed text-gray-500"
+          style={{ fontFamily: "var(--font-host-grotesk, sans-serif)" }}
+        >
+          {a}
+        </p>
+      </div>
+    </div>
+  )
+}
+
 export function InspireSection() {
   const block1 = useFadeIn()
   const block2 = useFadeIn()
@@ -131,9 +197,38 @@ export function InspireSection() {
             </div>
           </div>
 
+        {/* FAQ */}
+        <div className="pt-8 border-t border-gray-100">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+            {/* Left */}
+            <div className="md:w-64 shrink-0">
+              <p className="text-xs uppercase tracking-widest text-gray-400 mb-2" style={{ fontFamily: "var(--font-host-grotesk, sans-serif)" }}>FAQ</p>
+              <h2
+                className="text-2xl md:text-3xl text-gray-900 mb-4"
+                style={{ fontFamily: "var(--font-fraunces, serif)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+              >
+                What You Need to Know
+              </h2>
+              <button
+                onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
+                className="px-5 py-2.5 rounded-full text-sm font-medium border transition-all hover:bg-gray-50"
+                style={{ fontFamily: "var(--font-host-grotesk, sans-serif)", borderColor: "#e5e7eb", color: "#111111" }}
+              >
+                Suggest a resource →
+              </button>
+            </div>
+
+            {/* Right — accordion */}
+            <div className="flex-1">
+              {FAQS.map((faq, i) => (
+                <FAQItem key={i} q={faq.q} a={faq.a} />
+              ))}
+              <div className="border-t border-gray-200" />
+            </div>
+          </div>
         </div>
 
-        {/* Footer */}
+
         <div
           className="flex items-center justify-center pb-12 text-xs text-gray-300"
           style={{ fontFamily: "var(--font-host-grotesk, sans-serif)" }}

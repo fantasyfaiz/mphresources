@@ -527,11 +527,13 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
           <button
             onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
             className="relative inline-flex flex-col items-center group"
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', transition: 'opacity 0.2s ease' }}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '0.5')}
+            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
           >
             <span
               className="text-sm md:text-base font-semibold"
-              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em' }}
+              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', lineHeight: 1 }}
             >
               Suggest a resource
             </span>
@@ -539,7 +541,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
               src="/images/sketch-underline.png"
               alt=""
               aria-hidden="true"
-              style={{ width: '145px', height: 'auto', marginTop: '0px', opacity: 0.9 }}
+              style={{ width: '145px', height: 'auto', marginTop: '3px', display: 'block', opacity: 0.9 }}
             />
           </button>
         </div>
