@@ -541,7 +541,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
               src="/images/sketch-underline.png"
               alt=""
               aria-hidden="true"
-              style={{ width: '145px', height: 'auto', marginTop: '3px', display: 'block', opacity: 0.9 }}
+              style={{ width: '145px', height: 'auto', marginTop: '-12px', display: 'block', opacity: 0.9 }}
             />
           </button>
         </div>
