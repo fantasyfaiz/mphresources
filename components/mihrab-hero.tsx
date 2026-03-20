@@ -67,6 +67,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
   const [authError, setAuthError] = useState('')
   const [magicSent, setMagicSent] = useState(false)
   const [authLoading, setAuthLoading] = useState(false)
+  const [otpCode, setOtpCode] = useState('')
 
   // session
   const [session, setSession] = useState<any>(null)
@@ -160,7 +161,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
 
   const validateEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
 
-  const handleMagicLink = async () => {
+  const handleSendOtp = async () => {
     if (!firstName.trim()) { setAuthError('Please enter your first name'); return }
     if (!validateEmail(authEmail)) { setAuthError('Please enter a valid email'); return }
     setAuthError('')
@@ -169,18 +170,14 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
     const { error } = await supabase.auth.signInWithOtp({
       email: authEmail.trim(),
       options: {
-        emailRedirectTo: window.location.href,
+        shouldCreateUser: true,
         data: { first_name: firstName.trim() },
       },
     })
 
-    if (error) {
-      setAuthError(error.message)
-      setAuthLoading(false)
-      return
-    }
+    if (error) { setAuthError(error.message); setAuthLoading(false); return }
 
-    // Save lead + quiz answers regardless
+    // Save lead immediately
     await supabase.from('leads').upsert({
       email: authEmail.trim(),
       first_name: firstName.trim(),
@@ -190,7 +187,25 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
     }, { onConflict: 'email' })
 
     setAuthLoading(false)
-    setMagicSent(true)
+    setMagicSent(true) // reuse state to mean "OTP sent"
+  }
+
+  const handleVerifyOtp = async () => {
+    if (otpCode.length !== 6) { setAuthError('Please enter the 6-digit code'); return }
+    setAuthError('')
+    setAuthLoading(true)
+
+    const { data, error } = await supabase.auth.verifyOtp({
+      email: authEmail.trim(),
+      token: otpCode.trim(),
+      type: 'email',
+    })
+
+    if (error) { setAuthError('Invalid code. Please try again.'); setAuthLoading(false); return }
+
+    setSession(data.session)
+    setAuthLoading(false)
+    proceedToResults(authEmail.trim(), firstName.trim())
   }
 
   const handleSkip = () => {
@@ -263,7 +278,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
   const resetSearch = () => {
     setShowResults(false); setQuizOpen(false); setQuizStep(0)
     setAnswers({ careerFields: [], cities: [], resourceTypes: [] })
-    setFirstName(''); setAuthEmail(''); setAuthError(''); setMagicSent(false)
+    setFirstName(''); setAuthEmail(''); setAuthError(''); setMagicSent(false); setOtpCode('')
     setResources([]); setIntroText(''); setUserInfo(null)
     setShowCareerDrop(false); setShowCityDrop(false)
     onSearch('')
@@ -667,65 +682,86 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
               </>
             )}
 
-            {/* Step 3: Magic link auth gate */}
+            {/* Step 3: OTP auth gate */}
             {quizStep === 3 && (
               <>
                 <div className="px-6 pt-6 pb-4">
-                  {magicSent ? (
-                    <div className="text-center py-4">
-                      <div className="text-3xl mb-3">📬</div>
-                      <h2 className="text-xl font-serif font-semibold text-gray-900 mb-2">Check your inbox</h2>
-                      <p className="text-sm text-gray-400 mb-1">We sent a sign-in link to</p>
-                      <p className="text-sm font-medium text-gray-700 mb-4">{authEmail}</p>
-                      <p className="text-xs text-gray-400">Click the link in your email to see your personalized resources. You can close this and come back.</p>
-                    </div>
-                  ) : (
+                  {!magicSent ? (
                     <>
                       <h2 className="text-xl font-serif font-semibold text-gray-900 mb-1">Save your resources</h2>
-                      <p className="text-sm text-gray-400 mb-5">Enter your email and we'll send your personalized resource list there — plus save it for next time.</p>
-
+                      <p className="text-sm text-gray-400 mb-5">Enter your email and we'll send your personalized resource list there — and save it for next time. No password needed.</p>
                       <div className="flex flex-col gap-3">
                         <div>
                           <label className="text-xs font-medium text-gray-500 mb-1 block">First name</label>
-                          <input
-                            type="text"
-                            value={firstName}
+                          <input type="text" value={firstName}
                             onChange={e => { setFirstName(e.target.value); setAuthError('') }}
                             placeholder="e.g. Ahmad"
-                            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 transition-colors bg-gray-50"
-                          />
+                            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 transition-colors bg-gray-50" />
                         </div>
                         <div>
                           <label className="text-xs font-medium text-gray-500 mb-1 block">Email</label>
-                          <input
-                            type="email"
-                            value={authEmail}
+                          <input type="email" value={authEmail}
                             onChange={e => { setAuthEmail(e.target.value); setAuthError('') }}
-                            onKeyDown={e => e.key === 'Enter' && handleMagicLink()}
+                            onKeyDown={e => e.key === 'Enter' && handleSendOtp()}
                             placeholder="you@email.com"
-                            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 transition-colors bg-gray-50"
+                            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 transition-colors bg-gray-50" />
+                        </div>
+                        {authError && <p className="text-xs text-red-500">{authError}</p>}
+                        <p className="text-xs text-gray-400 text-center">No spam. Just your resources.</p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="text-xl font-serif font-semibold text-gray-900 mb-1">Check your email</h2>
+                      <p className="text-sm text-gray-400 mb-5">We sent a 6-digit code to <span className="font-medium text-gray-700">{authEmail}</span>. Enter it below.</p>
+                      <div className="flex flex-col gap-3">
+                        <div>
+                          <label className="text-xs font-medium text-gray-500 mb-1 block">6-digit code</label>
+                          <input type="text" value={otpCode}
+                            onChange={e => { setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6)); setAuthError('') }}
+                            onKeyDown={e => e.key === 'Enter' && handleVerifyOtp()}
+                            placeholder="123456"
+                            maxLength={6}
+                            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 transition-colors bg-gray-50 tracking-widest text-center text-lg font-medium"
                           />
                         </div>
                         {authError && <p className="text-xs text-red-500">{authError}</p>}
-                        <p className="text-xs text-gray-400 text-center">No password needed. No spam. Just your resources.</p>
+                        <button onClick={() => { setMagicSent(false); setOtpCode(''); setAuthError('') }}
+                          className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center">
+                          ← Use a different email
+                        </button>
                       </div>
                     </>
                   )}
                 </div>
 
-                {!magicSent && (
-                  <div className="px-6 py-5 flex flex-col gap-2 border-t border-gray-50">
-                    <button onClick={handleMagicLink} disabled={authLoading}
-                      className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all"
-                      style={{ backgroundColor: COLORS.navy }}>
-                      {authLoading ? 'Sending...' : 'Send my resource list →'}
-                    </button>
-                    <button onClick={handleSkip}
-                      className="w-full py-2 text-xs text-gray-400 hover:text-gray-600 transition-colors">
-                      Skip for now
-                    </button>
-                  </div>
-                )}
+                <div className="px-6 py-5 flex flex-col gap-2 border-t border-gray-50">
+                  {!magicSent ? (
+                    <>
+                      <button onClick={handleSendOtp} disabled={authLoading}
+                        className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all"
+                        style={{ backgroundColor: COLORS.navy }}>
+                        {authLoading ? 'Sending...' : 'Send me a code →'}
+                      </button>
+                      <button onClick={handleSkip}
+                        className="w-full py-2 text-xs text-gray-400 hover:text-gray-600 transition-colors">
+                        Skip for now
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button onClick={handleVerifyOtp} disabled={authLoading || otpCode.length !== 6}
+                        className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all"
+                        style={{ backgroundColor: otpCode.length === 6 ? COLORS.navy : '#e5e7eb', color: otpCode.length === 6 ? 'white' : '#9ca3af' }}>
+                        {authLoading ? 'Verifying...' : 'Show my resources →'}
+                      </button>
+                      <button onClick={handleSkip}
+                        className="w-full py-2 text-xs text-gray-400 hover:text-gray-600 transition-colors">
+                        Skip for now
+                      </button>
+                    </>
+                  )}
+                </div>
               </>
             )}
           </div>
