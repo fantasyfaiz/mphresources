@@ -30,6 +30,7 @@ const tagColors = [
 function dotLabel(r: CardResource): string {
   if (r.name === 'Iqra Fellowship') return 'Applications closed'
   if (r.name === 'Dr. Shakir Scholarship' || r.name === 'Razia Sheikh Scholarship') return 'Closes Apr 30'
+  if (r.name === 'Muslim Public Service Network Fellowship') return 'Rolling: Mar 31 · Late: May 1'
   if (!r.members || r.members === 'N/A') {
     if (r.section === 'Scholarships') return 'Open applications'
     if (r.section === 'Fellowships')  return 'Accepting fellows'
@@ -200,6 +201,14 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
           <p className="text-sm leading-relaxed text-gray-700">
             {resource.name === 'Alif'
               ? 'Alif is a venture fund and community for Muslim founders. They invest in early-stage startups (up to $500k), connect founders with engineers, marketers, and designers through their network, and host events where you can meet other builders and find your first believers.'
+              : resource.name === 'Muppies'
+              ? 'Muppies is a professional network spanning eight industries: consulting, entrepreneurship, finance, general management, law, social enterprise/public sector, technology, and product management. Members range from college juniors all the way to C-suite executives.'
+              : resource.name === 'Muslim Professionals'
+              ? 'Muslim Professionals is a community network for Muslim professionals. Applying gives you access to their Slack group, a networking sheet, and notifications on meetups and inner happenings.'
+              : resource.name === 'Muslim Public Service Network Fellowship'
+              ? 'A fellowship for Muslim professionals heading to Washington, D.C. Ideal for individuals who have secured (or are on their way to securing) a summer job or internship in D.C. Age requirement: 20+. Rolling applications close March 31 — late applications accepted until May 1.'
+              : resource.name === 'Islamic Scholarship Fund'
+              ? 'Since 2009, ISF has awarded $3.46 million in scholarships and grants, helping place scholars in positions that impact public policy and opinion across media, film, law, government, and more.'
               : resource.description}
           </p>
         </div>
@@ -214,6 +223,89 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
             className="relative inline-flex items-center gap-1 text-sm font-medium text-gray-800 hover:text-black transition-colors">
             Learn more <ArrowUpRight className="w-4 h-4" />
           </a>
+        )}
+
+        {/* Muppies extra links */}
+        {resource.name === 'Muppies' && (
+          <div className="relative mt-4 pt-4 border-t border-gray-200 flex flex-col gap-2">
+            <a href="https://www.muppies.org/membership/" target="_blank" rel="noopener noreferrer"
+              className="text-sm font-medium text-gray-800 hover:text-black transition-colors flex items-center gap-1">
+              Apply for membership <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        )}
+
+        {/* Muslim Professionals extra links */}
+        {resource.name === 'Muslim Professionals' && (
+          <div className="relative mt-4 pt-4 border-t border-gray-200 flex flex-col gap-2">
+            <a href="https://www.academy.muslimprofessionals.us/" target="_blank" rel="noopener noreferrer"
+              className="text-sm font-medium text-gray-800 hover:text-black transition-colors flex items-center gap-1">
+              MP Academy — free courses <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <a href="https://mpsouq.com/" target="_blank" rel="noopener noreferrer"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-1">
+              MP Souq — Muslim-owned business directory <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        )}
+
+        {/* MPSN Fellowship links */}
+        {resource.name === 'Muslim Public Service Network Fellowship' && (
+          <div className="relative mt-4 pt-4 border-t border-gray-200 flex flex-col gap-2">
+            <a href="https://www.muslimpublicservice.org/application" target="_blank" rel="noopener noreferrer"
+              className="text-sm font-medium text-gray-800 hover:text-black transition-colors flex items-center gap-1">
+              Apply now <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <a href="http://instagram.com/mpsndc/" target="_blank" rel="noopener noreferrer"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-1">
+              Instagram @mpsndc <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <a href="https://www.linkedin.com/company/mpsndc" target="_blank" rel="noopener noreferrer"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-1">
+              LinkedIn <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        )}
+
+        {/* Roots extra links */}
+        {resource.name === 'Roots' && (
+          <div className="relative mt-4 pt-4 border-t border-gray-200 flex flex-col gap-2">
+            <a href="https://www.rootsdfw.org/suhbah-coffee" target="_blank" rel="noopener noreferrer"
+              className="text-sm font-medium text-gray-800 hover:text-black transition-colors flex items-center gap-1">
+              Suhbah Coffee Space <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <a href="https://www.rootsdfw.org/programs/adults" target="_blank" rel="noopener noreferrer"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-1">
+              Browse past programs <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <a href="https://www.rootsdfw.org/calendar" target="_blank" rel="noopener noreferrer"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-1">
+              Program calendar <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        )}
+
+        {/* Taleef Collective media link */}
+        {resource.name === 'Taleef Collective' && (
+          <div className="relative mt-4 pt-4 border-t border-gray-200 flex flex-col gap-2">
+            <p className="text-xs text-gray-400" style={{ fontFamily: "var(--font-host-grotesk, sans-serif)" }}>📍 Chicago, IL &amp; Fremont, CA</p>
+            <a href="https://www.taleefcollective.org/media" target="_blank" rel="noopener noreferrer"
+              className="text-sm font-medium text-gray-800 hover:text-black transition-colors flex items-center gap-1">
+              Featured talks &amp; media <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <a href="https://www.taleefcollective.org/living-learning" target="_blank" rel="noopener noreferrer"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-1">
+              Programs &amp; living-learning <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <a href="https://www.instagram.com/taleefcollective/" target="_blank" rel="noopener noreferrer"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-1">
+              Instagram <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+            <a href="https://www.youtube.com/channel/UCh14wbm-k-SaHvgYV1AHCEw" target="_blank" rel="noopener noreferrer"
+              className="text-sm text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-1">
+              YouTube <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
         )}
 
         {/* b132 founder */}
