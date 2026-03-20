@@ -467,7 +467,10 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
 <h1 id="mph-headline" className="relative text-3xl md:text-5xl lg:text-6xl text-center px-2 text-[#2D2D2D]" style={{ fontFamily: "var(--font-fraunces, serif)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.2, paddingBottom: "0.1em" }}>
           <span className="relative z-10 word-reveal">
             {'Connecting the Fragmented Muslim Professional Ecosystem'.split(' ').map((word, i) => (
-              <span key={i} style={{ animationDelay: `${i * 0.08}s` }}>{word}{' '}</span>
+              <React.Fragment key={i}>
+                <span style={{ animationDelay: `${i * 0.12}s` }}>{word}</span>
+                {' '}
+              </React.Fragment>
             ))}
           </span>
           <span className="absolute inset-0 z-20 pointer-events-none"
@@ -482,7 +485,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
           .word-reveal span {
             display: inline-block;
             opacity: 0;
-            animation: wordReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: wordReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           }
         `}</style>
 
