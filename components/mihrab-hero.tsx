@@ -624,15 +624,15 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
             display: inline-block;
             opacity: 1;
           }
-          .frag-letter:nth-child(1){animation:letterScatter0 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
-          .frag-letter:nth-child(2){animation:letterScatter1 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
-          .frag-letter:nth-child(3){animation:letterScatter2 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
-          .frag-letter:nth-child(4){animation:letterScatter3 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
-          .frag-letter:nth-child(5){animation:letterScatter4 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
-          .frag-letter:nth-child(6){animation:letterScatter5 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
-          .frag-letter:nth-child(7){animation:letterScatter6 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
-          .frag-letter:nth-child(8){animation:letterScatter7 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
-          .frag-letter:nth-child(9){animation:letterScatter8 5s cubic-bezier(0.16,1,0.3,1) 2.5s infinite}
+          .frag-letter:nth-child(1){animation:letterScatter0 5s cubic-bezier(0.16,1,0.3,1) 1.5s infinite}
+          .frag-letter:nth-child(2){animation:letterScatter1 5s cubic-bezier(0.16,1,0.3,1) 1.5s infinite}
+          .frag-letter:nth-child(3){animation:letterScatter2 5s cubic-bezier(0.16,1,0.3,1) 1.5s infinite}
+          .frag-letter:nth-child(4){animation:letterScatter3 5s cubic-bezier(0.16,1,0.3,1) 1.5s infinite}
+          .frag-letter:nth-child(5){animation:letterScatter4 5s cubic-bezier(0.16,1,0.3,1) 1.5s infinite}
+          .frag-letter:nth-child(6){animation:letterScatter5 5s cubic-bezier(0.16,1,0.3,1) 1.5s infinite}
+          .frag-letter:nth-child(7){animation:letterScatter6 5s cubic-bezier(0.16,1,0.3,1) 1.5s infinite}
+          .frag-letter:nth-child(8){animation:letterScatter7 5s cubic-bezier(0.16,1,0.3,1) 1.5s infinite}
+          .frag-letter:nth-child(9){animation:letterScatter8 5s cubic-bezier(0.16,1,0.3,1) 1.5s infinite}
         `}</style>
 
         <div className="mt-8 md:mt-10 flex items-center gap-3 px-2" style={{ maxWidth: "min(90vw, 900px)", width: "100%" }}>
