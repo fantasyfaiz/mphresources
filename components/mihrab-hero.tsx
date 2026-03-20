@@ -540,7 +540,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
                 src="/images/sketch-underline.png"
                 alt=""
                 aria-hidden="true"
-                style={{ position: 'absolute', bottom: '-55px', left: '50%', transform: 'translateX(-50%)', width: '100%', height: 'auto', pointerEvents: 'none', opacity: 0.9 }}
+                style={{ position: 'absolute', bottom: isMobile ? '-51px' : '-55px', left: '50%', transform: 'translateX(-50%)', width: '100%', height: 'auto', pointerEvents: 'none', opacity: 0.9 }}
               />
             </span>
           </button>
