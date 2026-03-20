@@ -671,7 +671,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
           >
             <span
-              style={{ fontFamily: "'Caveat', cursive", color: '#2D2D2D', letterSpacing: '0.01em', fontWeight: 600, fontSize: isMobile ? '20px' : '24px', lineHeight: 1, display: 'block' }}
+              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', fontWeight: 600, fontSize: isMobile ? '14px' : '16px', lineHeight: 1, display: 'block' }}
             >
               Suggest a resource
             </span>
