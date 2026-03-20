@@ -526,23 +526,21 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
         <div className="mt-4">
           <button
             onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
-            className="relative inline-flex flex-col items-center group"
-            style={{ background: 'none', border: 'none', cursor: 'pointer', transition: 'opacity 0.2s ease' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', transition: 'opacity 0.2s ease', display: 'inline-flex', flexDirection: 'column', alignItems: 'center' }}
             onMouseEnter={e => (e.currentTarget.style.opacity = '0.5')}
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
           >
             <span
-              className="text-sm md:text-base font-semibold"
-              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', lineHeight: 1, position: 'relative', zIndex: 1, display: 'inline-block', whiteSpace: 'nowrap' }}
+              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', fontWeight: 600, fontSize: isMobile ? '14px' : '16px', lineHeight: 1, display: 'block' }}
             >
               Suggest a resource
-              <img
-                src="/images/sketch-underline.png"
-                alt=""
-                aria-hidden="true"
-                style={{ position: 'absolute', bottom: isMobile ? '-51px' : '-55px', left: '0', width: '100%', height: 'auto', pointerEvents: 'none', opacity: 0.9 }}
-              />
             </span>
+            <img
+              src="/images/sketch-underline.png"
+              alt=""
+              aria-hidden="true"
+              style={{ display: 'block', width: isMobile ? '140px' : '160px', height: '20px', objectFit: 'fill', marginTop: '2px', opacity: 0.9 }}
+            />
           </button>
         </div>
 
