@@ -533,16 +533,16 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
           >
             <span
               className="text-sm md:text-base font-semibold"
-              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', lineHeight: 1 }}
+              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', lineHeight: 1, position: 'relative', zIndex: 1 }}
             >
               Suggest a resource
+              <img
+                src="/images/sketch-underline.png"
+                alt=""
+                aria-hidden="true"
+                style={{ position: 'absolute', bottom: '-6px', left: '50%', transform: 'translateX(-50%)', width: '100%', height: 'auto', pointerEvents: 'none', opacity: 0.9 }}
+              />
             </span>
-            <img
-              src="/images/sketch-underline.png"
-              alt=""
-              aria-hidden="true"
-              style={{ width: '145px', height: 'auto', marginTop: '-12px', display: 'block', opacity: 0.9 }}
-            />
           </button>
         </div>
 
