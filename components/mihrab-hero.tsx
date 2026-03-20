@@ -500,7 +500,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
           {/* Pill search bar */}
           <div
             className="flex-1 flex items-center px-5 bg-white cursor-text border border-gray-200"
-            style={{ borderRadius: '4px', height: '50px', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}
+            style={{ borderRadius: '4px', height: '50px', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', borderColor: '#111111' }}
             onClick={() => setQuizOpen(true)}
           >
             <div className="flex-1 relative min-w-0" style={{ height: '24px' }}>
