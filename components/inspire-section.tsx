@@ -32,14 +32,6 @@ const FAQS = [
     q: "Can I suggest a resource that isn't listed?",
     a: "Absolutely. Hit the 'Suggest a resource' button anywhere on the page and fill out the short form. We review all submissions and add approved resources within a few days.",
   },
-  {
-    q: "Who built this?",
-    a: "MPH was built by Faiz Ahmed, a Muslim professional who wanted to make it easier for the community to find each other and the opportunities available to them.",
-  },
-  {
-    q: "How do I stay updated when new resources are added?",
-    a: "Join the Discord or follow us on Instagram (@mphhh) — we announce new resources and updates there regularly.",
-  },
 ]
 
 function FAQItem({ q, a }: { q: string; a: string }) {
