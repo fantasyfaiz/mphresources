@@ -121,6 +121,13 @@ export function InspireSection() {
                 </svg>
                 Join Discord
               </a>
+              <button
+                onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
+                className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium border transition-all hover:bg-gray-50"
+                style={{ borderColor: "#e5e7eb", color: "#111111", fontFamily: "var(--font-host-grotesk, sans-serif)" }}
+              >
+                + Suggest a resource
+              </button>
             </div>
           </div>
 
