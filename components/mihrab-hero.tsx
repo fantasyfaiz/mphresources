@@ -533,14 +533,14 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
           >
             <span
               className="text-sm md:text-base font-semibold"
-              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', lineHeight: 1, position: 'relative', zIndex: 1 }}
+              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', lineHeight: 1, position: 'relative', zIndex: 1, display: 'inline-block', whiteSpace: 'nowrap' }}
             >
               Suggest a resource
               <img
                 src="/images/sketch-underline.png"
                 alt=""
                 aria-hidden="true"
-                style={{ position: 'absolute', bottom: isMobile ? '-51px' : '-55px', left: '50%', transform: 'translateX(-50%)', width: '100%', height: 'auto', pointerEvents: 'none', opacity: 0.9 }}
+                style={{ position: 'absolute', bottom: isMobile ? '-51px' : '-55px', left: '0', width: '100%', height: 'auto', pointerEvents: 'none', opacity: 0.9 }}
               />
             </span>
           </button>
