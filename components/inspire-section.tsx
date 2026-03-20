@@ -133,16 +133,22 @@ export function InspireSection() {
               <p
                 style={{
                   fontFamily: "'Caveat', cursive",
-                  fontSize: "2rem",
+                  fontSize: "1.5rem",
                   fontWeight: 400,
                   color: "#1a1a1a",
                   lineHeight: 1.2,
                   letterSpacing: "0.01em",
+                  marginBottom: "4px",
                 }}
               >
                 Sincerely, Faiz Ahmed
               </p>
-              <div style={{ height: "2px", backgroundColor: "#1a1a1a", marginTop: "4px", borderRadius: "1px" }} />
+              <img
+                src="/images/sketch-underline.png"
+                alt=""
+                aria-hidden="true"
+                style={{ display: 'block', width: '100%', height: '16px', objectFit: 'fill', opacity: 0.85 }}
+              />
             </div>
           </div>
 
