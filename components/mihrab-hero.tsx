@@ -465,11 +465,26 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
 
       <div className="relative z-20 flex flex-col items-center justify-center min-h-screen px-4 pt-20 pb-32">
 <h1 id="mph-headline" className="relative text-3xl md:text-5xl lg:text-6xl text-center px-2 text-[#2D2D2D]" style={{ fontFamily: "var(--font-fraunces, serif)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.2, paddingBottom: "0.1em" }}>
-          <span className="relative z-10">Connecting the Fragmented<br />Muslim Professional Ecosystem</span>
+          <span className="relative z-10 word-reveal">
+            {'Connecting the Fragmented Muslim Professional Ecosystem'.split(' ').map((word, i) => (
+              <span key={i} style={{ animationDelay: `${i * 0.08}s` }}>{word}{' '}</span>
+            ))}
+          </span>
           <span className="absolute inset-0 z-20 pointer-events-none"
             style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)', animation: 'textShine 5s ease-in-out infinite', mixBlendMode: 'overlay' }} />
         </h1>
-        <style jsx>{`@keyframes textShine { 0% { transform: translateX(-100%); } 40%, 100% { transform: translateX(100%); } }`}</style>
+        <style jsx>{`
+          @keyframes textShine { 0% { transform: translateX(-100%); } 40%, 100% { transform: translateX(100%); } }
+          @keyframes wordReveal {
+            0% { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+          }
+          .word-reveal span {
+            display: inline-block;
+            opacity: 0;
+            animation: wordReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          }
+        `}</style>
 
         <div className="mt-8 md:mt-10 flex items-center gap-3 px-2" style={{ maxWidth: "min(90vw, 900px)", width: "100%" }}>
           {/* Pill search bar */}
@@ -504,12 +519,12 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
             className="w-full px-6 py-3 text-sm font-medium transition-all duration-200"
             style={{
               borderRadius: '999px',
-              border: '1px solid #d1d5db',
-              color: '#6b7280',
-              backgroundColor: 'transparent',
+              border: 'none',
+              color: '#9ca3af',
+              backgroundColor: '#E8E8E8',
             }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.04)' }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#d1d5db' }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#E8E8E8' }}
           >
             Suggest a resource
           </button>
