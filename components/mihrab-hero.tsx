@@ -273,12 +273,12 @@ export function MihrabHero() {
 
         {/* Search bar - responsive */}
         <div className="mt-8 md:mt-10 w-full max-w-2xl px-2">
-          <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 bg-white shadow-lg border border-gray-200" style={{ borderRadius: "4px" }}>
+          <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 bg-white shadow-lg border border-gray-200">
             {/* Input area with typewriter placeholder */}
             <div className="flex-1 relative min-w-0">
               {searchValue === "" && (
                 <div className="absolute inset-0 flex items-center pointer-events-none overflow-hidden">
-                  <span className="text-gray-400 text-sm md:text-base truncate" style={{ fontFamily: "var(--font-host-grotesk, sans-serif)" }}>
+                  <span className="text-gray-400 font-serif italic text-sm md:text-base truncate">
                     {displayText}
                     <span className="inline-block w-0.5 h-4 md:h-5 bg-gray-400 ml-0.5 animate-pulse align-middle" />
                   </span>
@@ -288,8 +288,7 @@ export function MihrabHero() {
                 type="text"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                className="w-full text-sm md:text-base text-gray-800 bg-transparent border-none outline-none"
-                style={{ fontFamily: "var(--font-host-grotesk, sans-serif)" }}
+                className="w-full text-sm md:text-base text-gray-800 bg-transparent border-none outline-none font-serif italic"
               />
             </div>
 
@@ -297,7 +296,6 @@ export function MihrabHero() {
             <button 
               className="relative p-2 md:p-3 shrink-0 overflow-hidden transition-shadow hover:shadow-lg"
               style={{
-                borderRadius: "4px",
                 background: "linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #252525 100%)",
                 boxShadow: "0 4px 15px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
               }}
@@ -331,38 +329,6 @@ export function MihrabHero() {
             50%, 100% { left: 150%; }
           }
         `}</style>
-
-        {/* Suggest a resource — sketchy underline style */}
-        <div className="mt-4 flex justify-center">
-          <button
-            onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
-            className="group relative flex flex-col items-center gap-0.5 transition-opacity hover:opacity-70"
-          >
-            <span className="text-sm font-semibold text-gray-700" style={{ fontFamily: "var(--font-host-grotesk, sans-serif)", letterSpacing: "-0.01em" }}>
-              Suggest a resource
-            </span>
-            <svg viewBox="0 0 160 10" width="160" height="10" xmlns="http://www.w3.org/2000/svg" className="overflow-visible">
-              <path
-                d="M2,6 C20,2 40,9 60,5 C80,1 100,8 120,4 C135,2 148,7 158,5"
-                fill="none"
-                stroke="#2D2D2D"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                style={{ opacity: 0.75 }}
-              />
-              <path
-                d="M4,7.5 C22,4.5 42,9.5 62,6.5 C82,3 102,8.5 122,5.5 C137,3.5 149,7.5 157,6"
-                fill="none"
-                stroke="#2D2D2D"
-                strokeWidth="0.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                style={{ opacity: 0.3 }}
-              />
-            </svg>
-          </button>
-        </div>
 
         {/* Subheadline */}
         <p
