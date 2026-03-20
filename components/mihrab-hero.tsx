@@ -58,13 +58,19 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
 
   // quiz
   const [quizOpen, setQuizOpen] = useState(false)
-  const [quizStep, setQuizStep] = useState(0) // 0,1,2 = questions; 3 = email gate
+  const [quizStep, setQuizStep] = useState(0) // 0,1,2 = questions; 3 = auth gate
   const [answers, setAnswers] = useState<QuizAnswers>({ careerFields: [], cities: [], resourceTypes: [] })
 
-  // email gate
+  // auth gate
   const [firstName, setFirstName] = useState('')
-  const [email, setEmail] = useState('')
-  const [emailError, setEmailError] = useState('')
+  const [authEmail, setAuthEmail] = useState('')
+  const [authError, setAuthError] = useState('')
+  const [magicSent, setMagicSent] = useState(false)
+  const [authLoading, setAuthLoading] = useState(false)
+
+  // session
+  const [session, setSession] = useState<any>(null)
+  const [sessionChecked, setSessionChecked] = useState(false)
 
   // results
   const [showResults, setShowResults] = useState(false)
@@ -79,6 +85,22 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
 
   const chatEndRef = useRef<HTMLDivElement>(null)
 
+  // Check for existing session on mount
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setSessionChecked(true)
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+      // If they clicked magic link and came back, close quiz and load results
+      if (session && quizOpen && quizStep === 3) {
+        proceedToResults(session.user.email ?? '', session.user.user_metadata?.first_name ?? '')
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [])
+
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
@@ -86,8 +108,6 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
     setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
-
-
 
   useEffect(() => {
     const sentences = isMobile ? SEARCH_SENTENCES_MOBILE : SEARCH_SENTENCES_DESKTOP
@@ -126,36 +146,79 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
 
   const handleNext = () => {
     if (quizStep < 2) setQuizStep(s => s + 1)
-    else setQuizStep(3) // go to email gate
+    else {
+      // If already logged in, skip auth gate
+      if (session) {
+        const name = session.user.user_metadata?.first_name ?? ''
+        const email = session.user.email ?? ''
+        proceedToResults(email, name)
+      } else {
+        setQuizStep(3)
+      }
+    }
   }
 
   const validateEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
 
-  const handleGateSubmit = async (skip = false) => {
-    if (!skip) {
-      if (!firstName.trim()) { setEmailError('Please enter your first name'); return }
-      if (!validateEmail(email)) { setEmailError('Please enter a valid email'); return }
+  const handleMagicLink = async () => {
+    if (!firstName.trim()) { setAuthError('Please enter your first name'); return }
+    if (!validateEmail(authEmail)) { setAuthError('Please enter a valid email'); return }
+    setAuthError('')
+    setAuthLoading(true)
+
+    const { error } = await supabase.auth.signInWithOtp({
+      email: authEmail.trim(),
+      options: {
+        emailRedirectTo: window.location.href,
+        data: { first_name: firstName.trim() },
+      },
+    })
+
+    if (error) {
+      setAuthError(error.message)
+      setAuthLoading(false)
+      return
     }
-    setEmailError('')
+
+    // Save lead + quiz answers regardless
+    await supabase.from('leads').upsert({
+      email: authEmail.trim(),
+      first_name: firstName.trim(),
+      career_fields: answers.careerFields.join(', '),
+      cities: answers.cities.join(', '),
+      resource_types: answers.resourceTypes.join(', '),
+    }, { onConflict: 'email' })
+
+    setAuthLoading(false)
+    setMagicSent(true)
+  }
+
+  const handleSkip = () => {
+    proceedToResults('', '')
+  }
+
+  const proceedToResults = async (email: string, name: string) => {
     setQuizOpen(false)
     setShowResults(true)
     setLoading(true)
-
-    const info = skip ? null : { firstName: firstName.trim(), email: email.trim() }
+    const info = email ? { firstName: name || email.split('@')[0], email } : null
     setUserInfo(info)
 
-    // Save lead to Supabase (fire and forget)
-    if (!skip && info) {
-      supabase.from('leads').insert({
-        first_name: info.firstName,
-        email: info.email,
-        career_fields: answers.careerFields.join(', '),
-        cities: answers.cities.join(', '),
-        resource_types: answers.resourceTypes.join(', '),
-      }).then(() => {})
+    // Save profile if logged in
+    if (session || email) {
+      const uid = session?.user?.id
+      if (uid) {
+        await supabase.from('profiles').upsert({
+          id: uid,
+          first_name: name || firstName.trim(),
+          email: email || session?.user?.email,
+          career_fields: answers.careerFields.join(', '),
+          cities: answers.cities.join(', '),
+          resource_types: answers.resourceTypes.join(', '),
+        }, { onConflict: 'id' })
+      }
     }
 
-    // Fetch resources
     const { data, error } = await supabase
       .from('resources').select('*').eq('is_active', true).order('id')
 
@@ -187,7 +250,8 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
 
     const count = filtered.length
     const sections = [...new Set(filtered.map(r => r.section))]
-    const greeting = info ? `Wa alaikum assalam, ${info.firstName}! ` : 'Assalamu alaikum! '
+    const displayName = name || firstName.trim()
+    const greeting = displayName ? `Wa alaikum assalam, ${displayName}! ` : 'Assalamu alaikum! '
     let intro = `${greeting}Based on your interests, I found **${count} resource${count !== 1 ? 's' : ''}** across ${sections.length} categor${sections.length !== 1 ? 'ies' : 'y'}.\n\n`
     intro += answers.careerFields.includes('General / Not sure yet')
       ? `Since you're still exploring, I've pulled a broad range to help you discover what resonates.`
@@ -199,7 +263,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
   const resetSearch = () => {
     setShowResults(false); setQuizOpen(false); setQuizStep(0)
     setAnswers({ careerFields: [], cities: [], resourceTypes: [] })
-    setFirstName(''); setEmail(''); setEmailError('')
+    setFirstName(''); setAuthEmail(''); setAuthError(''); setMagicSent(false)
     setResources([]); setIntroText(''); setUserInfo(null)
     setShowCareerDrop(false); setShowCityDrop(false)
     onSearch('')
@@ -214,6 +278,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
   const initials = userInfo
     ? userInfo.firstName.charAt(0).toUpperCase()
     : ''
+
 
   // ── RESULTS PAGE ──
   if (showResults) {
@@ -602,51 +667,65 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
               </>
             )}
 
-            {/* Step 3: Email gate */}
+            {/* Step 3: Magic link auth gate */}
             {quizStep === 3 && (
               <>
                 <div className="px-6 pt-6 pb-4">
-                  <h2 className="text-xl font-serif font-semibold text-gray-900 mb-1">Almost there!</h2>
-                  <p className="text-sm text-gray-400 mb-5">Where should we send your resource list?</p>
+                  {magicSent ? (
+                    <div className="text-center py-4">
+                      <div className="text-3xl mb-3">📬</div>
+                      <h2 className="text-xl font-serif font-semibold text-gray-900 mb-2">Check your inbox</h2>
+                      <p className="text-sm text-gray-400 mb-1">We sent a sign-in link to</p>
+                      <p className="text-sm font-medium text-gray-700 mb-4">{authEmail}</p>
+                      <p className="text-xs text-gray-400">Click the link in your email to see your personalized resources. You can close this and come back.</p>
+                    </div>
+                  ) : (
+                    <>
+                      <h2 className="text-xl font-serif font-semibold text-gray-900 mb-1">Save your resources</h2>
+                      <p className="text-sm text-gray-400 mb-5">Enter your email and we'll send your personalized resource list there — plus save it for next time.</p>
 
-                  <div className="flex flex-col gap-3">
-                    <div>
-                      <label className="text-xs font-medium text-gray-500 mb-1 block">First name</label>
-                      <input
-                        type="text"
-                        value={firstName}
-                        onChange={e => { setFirstName(e.target.value); setEmailError('') }}
-                        placeholder="e.g. Ahmad"
-                        className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 transition-colors bg-gray-50"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs font-medium text-gray-500 mb-1 block">Email</label>
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={e => { setEmail(e.target.value); setEmailError('') }}
-                        onKeyDown={e => e.key === 'Enter' && handleGateSubmit()}
-                        placeholder="you@email.com"
-                        className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 transition-colors bg-gray-50"
-                      />
-                    </div>
-                    {emailError && <p className="text-xs text-red-500">{emailError}</p>}
-                    <p className="text-xs text-gray-400 text-center">No spam. Just your resources.</p>
+                      <div className="flex flex-col gap-3">
+                        <div>
+                          <label className="text-xs font-medium text-gray-500 mb-1 block">First name</label>
+                          <input
+                            type="text"
+                            value={firstName}
+                            onChange={e => { setFirstName(e.target.value); setAuthError('') }}
+                            placeholder="e.g. Ahmad"
+                            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 transition-colors bg-gray-50"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-xs font-medium text-gray-500 mb-1 block">Email</label>
+                          <input
+                            type="email"
+                            value={authEmail}
+                            onChange={e => { setAuthEmail(e.target.value); setAuthError('') }}
+                            onKeyDown={e => e.key === 'Enter' && handleMagicLink()}
+                            placeholder="you@email.com"
+                            className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 transition-colors bg-gray-50"
+                          />
+                        </div>
+                        {authError && <p className="text-xs text-red-500">{authError}</p>}
+                        <p className="text-xs text-gray-400 text-center">No password needed. No spam. Just your resources.</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {!magicSent && (
+                  <div className="px-6 py-5 flex flex-col gap-2 border-t border-gray-50">
+                    <button onClick={handleMagicLink} disabled={authLoading}
+                      className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all"
+                      style={{ backgroundColor: COLORS.navy }}>
+                      {authLoading ? 'Sending...' : 'Send my resource list →'}
+                    </button>
+                    <button onClick={handleSkip}
+                      className="w-full py-2 text-xs text-gray-400 hover:text-gray-600 transition-colors">
+                      Skip for now
+                    </button>
                   </div>
-                </div>
-
-                <div className="px-6 py-5 flex flex-col gap-2 border-t border-gray-50">
-                  <button onClick={() => handleGateSubmit(false)}
-                    className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all"
-                    style={{ backgroundColor: COLORS.navy }}>
-                    Show my resources →
-                  </button>
-                  <button onClick={() => handleGateSubmit(true)}
-                    className="w-full py-2 text-xs text-gray-400 hover:text-gray-600 transition-colors">
-                    Skip for now
-                  </button>
-                </div>
+                )}
               </>
             )}
           </div>
