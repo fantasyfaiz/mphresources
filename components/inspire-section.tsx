@@ -228,6 +228,7 @@ export function InspireSection() {
           </div>
         </div>
 
+        </div>{/* end max-w-2xl */}
 
         <div
           className="flex items-center justify-center pb-12 text-xs text-gray-300"
