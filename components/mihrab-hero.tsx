@@ -662,25 +662,48 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
           </button>
         </div>
 
-        {/* Suggest a resource — sketchy underline */}
-        <div className="mt-4" style={{ marginTop: '21px' }}>
+        {/* Suggest a resource — pill button */}
+        <div className="mt-4">
           <button
             onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', transition: 'opacity 0.2s ease', display: 'inline-flex', flexDirection: 'column', alignItems: 'center' }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.5')}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '0.75')}
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '10px',
+              background: '#E8E5E0', border: 'none', borderRadius: '999px',
+              padding: '9px 18px', cursor: 'pointer',
+              transition: 'opacity 0.2s ease',
+            }}
           >
-            <span
-              style={{ fontFamily: 'var(--font-host-grotesk, sans-serif)', color: '#2D2D2D', letterSpacing: '-0.01em', fontWeight: 600, fontSize: isMobile ? '14px' : '16px', lineHeight: 1, display: 'block', position: 'relative', top: '5px' }}
-            >
+            <svg width="14" height="14" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.5, flexShrink: 0 }}>
+              <circle cx="50" cy="50" r="8" fill="#2D2D2D"/>
+              <circle cx="50" cy="50" r="18" stroke="#2D2D2D" strokeWidth="2.5" fill="none"/>
+              <circle cx="50" cy="50" r="30" stroke="#2D2D2D" strokeWidth="1.5" fill="none" strokeDasharray="5 4"/>
+              {[0,45,90,135,180,225,270,315].map((angle, i) => {
+                const rad = (angle * Math.PI) / 180
+                const x = 50 + 44 * Math.cos(rad)
+                const y = 50 + 44 * Math.sin(rad)
+                return <circle key={i} cx={x} cy={y} r="4.5" fill="#2D2D2D"/>
+              })}
+            </svg>
+            <span style={{
+              fontFamily: 'var(--font-host-grotesk, sans-serif)',
+              fontSize: '13px', fontWeight: 500,
+              color: '#2D2D2D', letterSpacing: '0.01em',
+            }}>
               Suggest a resource
             </span>
-            <img
-              src="/images/sketch-underline.png"
-              alt=""
-              aria-hidden="true"
-              style={{ display: 'block', width: isMobile ? '160px' : '170px', height: isMobile ? '28px' : '22px', objectFit: 'fill', marginTop: '4px', opacity: 0.9 }}
-            />
+            <svg width="14" height="14" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.5, flexShrink: 0 }}>
+              <circle cx="50" cy="50" r="8" fill="#2D2D2D"/>
+              <circle cx="50" cy="50" r="18" stroke="#2D2D2D" strokeWidth="2.5" fill="none"/>
+              <circle cx="50" cy="50" r="30" stroke="#2D2D2D" strokeWidth="1.5" fill="none" strokeDasharray="5 4"/>
+              {[0,45,90,135,180,225,270,315].map((angle, i) => {
+                const rad = (angle * Math.PI) / 180
+                const x = 50 + 44 * Math.cos(rad)
+                const y = 50 + 44 * Math.sin(rad)
+                return <circle key={i} cx={x} cy={y} r="4.5" fill="#2D2D2D"/>
+              })}
+            </svg>
           </button>
         </div>
 
