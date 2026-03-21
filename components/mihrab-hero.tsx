@@ -676,42 +676,51 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
         <div className="mt-4">
           <button
             onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.75')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'rgba(0,0,0,0.04)'
+              e.currentTarget.style.borderColor = '#888'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'transparent'
+              e.currentTarget.style.borderColor = 'rgba(0,0,0,0.25)'
+            }}
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: '10px',
-              background: '#E8E5E0', border: 'none', borderRadius: '999px',
-              padding: '9px 18px', cursor: 'pointer',
-              transition: 'opacity 0.2s ease',
+              display: 'inline-flex', alignItems: 'center', gap: '12px',
+              background: 'transparent',
+              border: '1px solid rgba(0,0,0,0.25)',
+              borderRadius: '999px',
+              padding: '9px 20px',
+              cursor: 'pointer',
+              transition: 'background 0.2s ease, border-color 0.2s ease',
             }}
           >
-            <svg width="14" height="14" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.5, flexShrink: 0 }}>
-              <circle cx="50" cy="50" r="8" fill="#2D2D2D"/>
-              <circle cx="50" cy="50" r="18" stroke="#2D2D2D" strokeWidth="2.5" fill="none"/>
-              <circle cx="50" cy="50" r="30" stroke="#2D2D2D" strokeWidth="1.5" fill="none" strokeDasharray="5 4"/>
+            <svg width="13" height="13" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.4, flexShrink: 0 }}>
+              <circle cx="50" cy="50" r="7" fill="#1a1a1a"/>
+              <circle cx="50" cy="50" r="17" stroke="#1a1a1a" strokeWidth="3" fill="none"/>
+              <circle cx="50" cy="50" r="29" stroke="#1a1a1a" strokeWidth="2" fill="none" strokeDasharray="4 4"/>
               {[0,45,90,135,180,225,270,315].map((angle, i) => {
                 const rad = (angle * Math.PI) / 180
-                const x = 50 + 44 * Math.cos(rad)
-                const y = 50 + 44 * Math.sin(rad)
-                return <circle key={i} cx={x} cy={y} r="4.5" fill="#2D2D2D"/>
+                const x = 50 + 43 * Math.cos(rad)
+                const y = 50 + 43 * Math.sin(rad)
+                return <circle key={i} cx={x} cy={y} r="4" fill="#1a1a1a"/>
               })}
             </svg>
             <span style={{
               fontFamily: 'var(--font-host-grotesk, sans-serif)',
-              fontSize: '13px', fontWeight: 500,
-              color: '#2D2D2D', letterSpacing: '0.01em',
+              fontSize: '13px', fontWeight: 400,
+              color: '#2D2D2D', letterSpacing: '0.02em',
             }}>
               Suggest a resource
             </span>
-            <svg width="14" height="14" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.5, flexShrink: 0 }}>
-              <circle cx="50" cy="50" r="8" fill="#2D2D2D"/>
-              <circle cx="50" cy="50" r="18" stroke="#2D2D2D" strokeWidth="2.5" fill="none"/>
-              <circle cx="50" cy="50" r="30" stroke="#2D2D2D" strokeWidth="1.5" fill="none" strokeDasharray="5 4"/>
+            <svg width="13" height="13" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.4, flexShrink: 0 }}>
+              <circle cx="50" cy="50" r="7" fill="#1a1a1a"/>
+              <circle cx="50" cy="50" r="17" stroke="#1a1a1a" strokeWidth="3" fill="none"/>
+              <circle cx="50" cy="50" r="29" stroke="#1a1a1a" strokeWidth="2" fill="none" strokeDasharray="4 4"/>
               {[0,45,90,135,180,225,270,315].map((angle, i) => {
                 const rad = (angle * Math.PI) / 180
-                const x = 50 + 44 * Math.cos(rad)
-                const y = 50 + 44 * Math.sin(rad)
-                return <circle key={i} cx={x} cy={y} r="4.5" fill="#2D2D2D"/>
+                const x = 50 + 43 * Math.cos(rad)
+                const y = 50 + 43 * Math.sin(rad)
+                return <circle key={i} cx={x} cy={y} r="4" fill="#1a1a1a"/>
               })}
             </svg>
           </button>
