@@ -147,7 +147,7 @@ export function InspireSection() {
                 src="/images/sketch-underline.png"
                 alt=""
                 aria-hidden="true"
-                style={{ display: 'block', width: '100%', height: '16px', objectFit: 'fill', opacity: 0.85 }}
+                style={{ display: 'block', width: '220px', height: '14px', objectFit: 'fill', opacity: 0.85 }}
               />
             </div>
           </div>

@@ -570,6 +570,16 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
         }
       `}</style>
       <div className="absolute inset-0 z-10" style={{ backgroundImage: 'url(/images/mihrab.png)', backgroundSize: '20px auto', backgroundRepeat: 'repeat', opacity: 1 }} />
+      {/* Grain overlay */}
+      <div className="absolute inset-0 z-11 pointer-events-none" style={{ opacity: 0.35 }}>
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <filter id="hero-grain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#hero-grain)" opacity="0.4" />
+        </svg>
+      </div>
       <div className="absolute bottom-0 left-0 right-0 h-48 z-10 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent, white)' }} />
       {/* Top fade from white to transparent — all screens */}
       <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none" style={{ height: '120px', background: 'linear-gradient(to bottom, white, transparent)' }} />
