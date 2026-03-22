@@ -147,8 +147,10 @@ export function InspireSection() {
                 src="/images/sketch-underline.png"
                 alt=""
                 aria-hidden="true"
-                style={{ display: 'block', width: '220px', height: '14px', objectFit: 'fill', opacity: 0.85 }}
+                className="signature-underline"
+                style={{ display: 'block', height: '14px', objectFit: 'fill', opacity: 0.85 }}
               />
+              <style>{`.signature-underline { width: 220px; } @media (max-width: 767px) { .signature-underline { width: 265px; } }`}</style>
             </div>
           </div>
 
