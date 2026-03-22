@@ -676,52 +676,66 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
         <div className="mt-4">
           <button
             onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'rgba(0,0,0,0.04)'
-              e.currentTarget.style.borderColor = '#888'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.borderColor = 'rgba(0,0,0,0.25)'
-            }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#d4d0cb' }}
+            onMouseLeave={e => { e.currentTarget.style.background = '#e5e2dd' }}
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: '12px',
-              background: 'transparent',
-              border: '1px solid rgba(0,0,0,0.25)',
+              display: 'inline-flex', alignItems: 'center', gap: '20px',
+              background: '#e5e2dd',
+              border: 'none',
               borderRadius: '999px',
-              padding: '9px 20px',
+              padding: '14px 28px',
               cursor: 'pointer',
-              transition: 'background 0.2s ease, border-color 0.2s ease',
+              transition: 'background 0.2s ease',
             }}
           >
-            <svg width="13" height="13" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.4, flexShrink: 0 }}>
-              <circle cx="50" cy="50" r="7" fill="#1a1a1a"/>
-              <circle cx="50" cy="50" r="17" stroke="#1a1a1a" strokeWidth="3" fill="none"/>
-              <circle cx="50" cy="50" r="29" stroke="#1a1a1a" strokeWidth="2" fill="none" strokeDasharray="4 4"/>
+            <svg width="26" height="26" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+              {/* 8 overlapping petal circles */}
               {[0,45,90,135,180,225,270,315].map((angle, i) => {
                 const rad = (angle * Math.PI) / 180
-                const x = 50 + 43 * Math.cos(rad)
-                const y = 50 + 43 * Math.sin(rad)
-                return <circle key={i} cx={x} cy={y} r="4" fill="#1a1a1a"/>
+                const cx = 60 + 24 * Math.cos(rad)
+                const cy = 60 + 24 * Math.sin(rad)
+                return <circle key={i} cx={cx} cy={cy} r="24" stroke="#5a5a5a" strokeWidth="1.8" fill="none"/>
               })}
+              {/* Inner square-ish ring from intersections — approximated as octagon */}
+              <circle cx="60" cy="60" r="12" stroke="#5a5a5a" strokeWidth="1.8" fill="none"/>
+              {/* Outer dotted ring */}
+              <circle cx="60" cy="60" r="48" stroke="#5a5a5a" strokeWidth="1.5" fill="none" strokeDasharray="3.5 3.5"/>
+              {/* Outer 8 dots */}
+              {[0,45,90,135,180,225,270,315].map((angle, i) => {
+                const rad = (angle * Math.PI) / 180
+                const cx = 60 + 48 * Math.cos(rad)
+                const cy = 60 + 48 * Math.sin(rad)
+                return <circle key={i} cx={cx} cy={cy} r="3.5" fill="#5a5a5a"/>
+              })}
+              {/* Center dot */}
+              <circle cx="60" cy="60" r="4" fill="#5a5a5a"/>
             </svg>
+
             <span style={{
-              fontFamily: 'var(--font-host-grotesk, sans-serif)',
-              fontSize: '13px', fontWeight: 400,
-              color: '#2D2D2D', letterSpacing: '0.02em',
+              fontFamily: 'var(--font-fraunces, serif)',
+              fontSize: '20px', fontWeight: 400,
+              color: '#555', letterSpacing: '-0.01em',
+              lineHeight: 1,
             }}>
               Suggest a resource
             </span>
-            <svg width="13" height="13" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.4, flexShrink: 0 }}>
-              <circle cx="50" cy="50" r="7" fill="#1a1a1a"/>
-              <circle cx="50" cy="50" r="17" stroke="#1a1a1a" strokeWidth="3" fill="none"/>
-              <circle cx="50" cy="50" r="29" stroke="#1a1a1a" strokeWidth="2" fill="none" strokeDasharray="4 4"/>
+
+            <svg width="26" height="26" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
               {[0,45,90,135,180,225,270,315].map((angle, i) => {
                 const rad = (angle * Math.PI) / 180
-                const x = 50 + 43 * Math.cos(rad)
-                const y = 50 + 43 * Math.sin(rad)
-                return <circle key={i} cx={x} cy={y} r="4" fill="#1a1a1a"/>
+                const cx = 60 + 24 * Math.cos(rad)
+                const cy = 60 + 24 * Math.sin(rad)
+                return <circle key={i} cx={cx} cy={cy} r="24" stroke="#5a5a5a" strokeWidth="1.8" fill="none"/>
               })}
+              <circle cx="60" cy="60" r="12" stroke="#5a5a5a" strokeWidth="1.8" fill="none"/>
+              <circle cx="60" cy="60" r="48" stroke="#5a5a5a" strokeWidth="1.5" fill="none" strokeDasharray="3.5 3.5"/>
+              {[0,45,90,135,180,225,270,315].map((angle, i) => {
+                const rad = (angle * Math.PI) / 180
+                const cx = 60 + 48 * Math.cos(rad)
+                const cy = 60 + 48 * Math.sin(rad)
+                return <circle key={i} cx={cx} cy={cy} r="3.5" fill="#5a5a5a"/>
+              })}
+              <circle cx="60" cy="60" r="4" fill="#5a5a5a"/>
             </svg>
           </button>
         </div>
