@@ -174,6 +174,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
       email: authEmail.trim(),
       options: {
         shouldCreateUser: true,
+        emailRedirectTo: undefined,
         data: { first_name: firstName.trim() },
       },
     })
