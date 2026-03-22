@@ -132,7 +132,7 @@ export function InspireSection() {
             <img
               src="/images/signature.png"
               alt="Sincerely, Faiz Ahmed"
-              style={{ display: 'block', width: '280px', height: 'auto' }}
+              style={{ display: 'block', width: '180px', height: 'auto', opacity: 0.75 }}
             />
           </div>
 
