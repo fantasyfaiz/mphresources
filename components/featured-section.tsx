@@ -65,7 +65,7 @@ function FeaturedCard({ item, index }: { item: typeof FEATURED[0]; index: number
 
   return (
     <>
-      <style>{`@keyframes mihrabPulse { 0%,100%{opacity:0.15} 50%{opacity:0.28} }`}</style>
+      <style>{`@keyframes mihrabPulse { 0%,100%{opacity:0.12} 50%{opacity:0.3} }`}</style>
       <div
         ref={ref}
         style={{
@@ -92,7 +92,7 @@ function FeaturedCard({ item, index }: { item: typeof FEATURED[0]; index: number
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'bottom right',
-            animation: 'mihrabPulse 4s ease-in-out infinite',
+            animation: 'mihrabPulse 1.5s ease-in-out infinite',
             pointerEvents: 'none',
           }} />
         )}
