@@ -570,8 +570,8 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
         }
       `}</style>
       <div className="absolute inset-0 z-10" style={{ backgroundImage: 'url(/images/mihrab.png)', backgroundSize: '20px auto', backgroundRepeat: 'repeat', opacity: 1 }} />
-      {/* Grain overlay */}
-      <div className="absolute inset-0 z-11 pointer-events-none" style={{ opacity: 0.35 }}>
+      {/* Grain overlay with fade at bottom */}
+      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 11, WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)', maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)', opacity: 0.35 }}>
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <filter id="hero-grain">
             <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch" />
@@ -689,7 +689,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
             <img
               src="/images/mosaic-label.png"
               alt="Suggest a resource"
-              style={{ height: '52px', width: 'auto', display: 'block', transition: 'transform 0.35s cubic-bezier(0.16,1,0.3,1), filter 0.35s ease' }}
+              style={{ height: '72px', width: 'auto', display: 'block', transition: 'transform 0.35s cubic-bezier(0.16,1,0.3,1), filter 0.35s ease' }}
             />
           </button>
         </div>
