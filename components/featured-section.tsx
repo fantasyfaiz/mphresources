@@ -33,6 +33,21 @@ const FEATURED = [
     accent: "#2E5A6C",
     mihrab: true,
   },
+  {
+    id: "ummat",
+    tag: "Pitch Competition",
+    tagline: "Serious Founders Only",
+    title: "Ummat Shark Tank",
+    description: "Pitch your business to community investors and win up to $20,000 in investment. Final 4 ideas pitch live at the EXPO event. Shortlisting via Google Meet virtual sessions.",
+    details: [
+      { label: "Prize", value: "Up to $20,000 investment", href: null },
+      { label: "Host", value: "United Multicultural Muslim Alliance of Texas", href: null },
+    ],
+    cta: { label: "Apply now", href: "https://docs.google.com/forms/d/e/1FAIpQLSfdHH-yfrYgWfJ_-LHuDNG5iGYNqQCXCl_RT8mCbH-fY0wGIg/viewform" },
+    secondary: null,
+    accent: "#1a3a2a",
+    mihrab: true,
+  },
 ]
 
 function FeaturedCard({ item, index }: { item: typeof FEATURED[0]; index: number }) {
