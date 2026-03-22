@@ -676,67 +676,21 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
         <div className="mt-4">
           <button
             onClick={() => window.dispatchEvent(new Event('open-suggest-modal'))}
-            onMouseEnter={e => { e.currentTarget.style.background = '#d4d0cb' }}
-            onMouseLeave={e => { e.currentTarget.style.background = '#e5e2dd' }}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '20px',
-              background: '#e5e2dd',
-              border: 'none',
-              borderRadius: '999px',
-              padding: '14px 28px',
-              cursor: 'pointer',
-              transition: 'background 0.2s ease',
+            onMouseEnter={e => {
+              const img = e.currentTarget.querySelector('img') as HTMLImageElement
+              if (img) { img.style.transform = 'scale(1.04)'; img.style.filter = 'brightness(0.95)' }
             }}
+            onMouseLeave={e => {
+              const img = e.currentTarget.querySelector('img') as HTMLImageElement
+              if (img) { img.style.transform = 'scale(1)'; img.style.filter = 'brightness(1)' }
+            }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
           >
-            <svg width="26" height="26" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-              {/* 8 overlapping petal circles */}
-              {[0,45,90,135,180,225,270,315].map((angle, i) => {
-                const rad = (angle * Math.PI) / 180
-                const cx = 60 + 24 * Math.cos(rad)
-                const cy = 60 + 24 * Math.sin(rad)
-                return <circle key={i} cx={cx} cy={cy} r="24" stroke="#5a5a5a" strokeWidth="1.8" fill="none"/>
-              })}
-              {/* Inner square-ish ring from intersections — approximated as octagon */}
-              <circle cx="60" cy="60" r="12" stroke="#5a5a5a" strokeWidth="1.8" fill="none"/>
-              {/* Outer dotted ring */}
-              <circle cx="60" cy="60" r="48" stroke="#5a5a5a" strokeWidth="1.5" fill="none" strokeDasharray="3.5 3.5"/>
-              {/* Outer 8 dots */}
-              {[0,45,90,135,180,225,270,315].map((angle, i) => {
-                const rad = (angle * Math.PI) / 180
-                const cx = 60 + 48 * Math.cos(rad)
-                const cy = 60 + 48 * Math.sin(rad)
-                return <circle key={i} cx={cx} cy={cy} r="3.5" fill="#5a5a5a"/>
-              })}
-              {/* Center dot */}
-              <circle cx="60" cy="60" r="4" fill="#5a5a5a"/>
-            </svg>
-
-            <span style={{
-              fontFamily: 'var(--font-fraunces, serif)',
-              fontSize: '20px', fontWeight: 400,
-              color: '#555', letterSpacing: '-0.01em',
-              lineHeight: 1,
-            }}>
-              Suggest a resource
-            </span>
-
-            <svg width="26" height="26" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-              {[0,45,90,135,180,225,270,315].map((angle, i) => {
-                const rad = (angle * Math.PI) / 180
-                const cx = 60 + 24 * Math.cos(rad)
-                const cy = 60 + 24 * Math.sin(rad)
-                return <circle key={i} cx={cx} cy={cy} r="24" stroke="#5a5a5a" strokeWidth="1.8" fill="none"/>
-              })}
-              <circle cx="60" cy="60" r="12" stroke="#5a5a5a" strokeWidth="1.8" fill="none"/>
-              <circle cx="60" cy="60" r="48" stroke="#5a5a5a" strokeWidth="1.5" fill="none" strokeDasharray="3.5 3.5"/>
-              {[0,45,90,135,180,225,270,315].map((angle, i) => {
-                const rad = (angle * Math.PI) / 180
-                const cx = 60 + 48 * Math.cos(rad)
-                const cy = 60 + 48 * Math.sin(rad)
-                return <circle key={i} cx={cx} cy={cy} r="3.5" fill="#5a5a5a"/>
-              })}
-              <circle cx="60" cy="60" r="4" fill="#5a5a5a"/>
-            </svg>
+            <img
+              src="/images/mosaic-label.png"
+              alt="Suggest a resource"
+              style={{ height: '52px', width: 'auto', display: 'block', transition: 'transform 0.35s cubic-bezier(0.16,1,0.3,1), filter 0.35s ease' }}
+            />
           </button>
         </div>
 
