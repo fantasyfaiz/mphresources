@@ -130,7 +130,7 @@ export function InspireSection() {
           {/* Signature */}
           <div ref={block3.ref} style={fadeStyle(block3.visible, "0.2s")}>
             <img
-              src="/images/Signature.png"
+              src="/images/signature.png"
               alt="Sincerely, Faiz Ahmed"
               style={{ display: 'block', width: '280px', height: 'auto' }}
             />
