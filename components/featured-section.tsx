@@ -31,7 +31,7 @@ const FEATURED = [
     cta: { label: "Apply now", href: "https://launch.provisioncapital.com/quran-hackathon" },
     secondary: null,
     accent: "#2E5A6C",
-    mihrab: false,
+    mihrab: true,
   },
 ]
 
