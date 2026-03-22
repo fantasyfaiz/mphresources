@@ -41,7 +41,7 @@ const FEATURED = [
     description: "Pitch your business to community investors and win up to $20,000 in investment. Final 4 ideas pitch live at the EXPO event. Shortlisting via Google Meet virtual sessions.",
     details: [
       { label: "Prize", value: "Up to $20,000 investment", href: null },
-      { label: "Host", value: "United Multicultural Muslim Alliance of Texas", href: null },
+      { label: "Host", value: "United Multicultural Muslim Alliance of Texas", href: "https://umma-t.org/" },
     ],
     cta: { label: "Apply now", href: "https://docs.google.com/forms/d/e/1FAIpQLSfdHH-yfrYgWfJ_-LHuDNG5iGYNqQCXCl_RT8mCbH-fY0wGIg/viewform" },
     secondary: null,
@@ -120,19 +120,18 @@ function FeaturedCard({ item, index }: { item: typeof FEATURED[0]; index: number
             {item.description}
           </p>
 
-          {/* Details — fixed width label column so values align */}
+          {/* Details — label: + 3 spaces + value */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '32px' }}>
             {item.details.map((d, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'baseline' }}>
-                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-host-grotesk, sans-serif)', textTransform: 'uppercase', letterSpacing: '0.08em', width: '80px', flexShrink: 0 }}>
-                  {d.label}:
-                </span>
+              <p key={i} style={{ margin: 0, fontSize: '13px', fontFamily: 'var(--font-host-grotesk, sans-serif)', color: 'rgba(255,255,255,0.75)' }}>
+                <span style={{ textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>{d.label}:</span>
+                {'   '}
                 {d.href ? (
-                  <a href={d.href} style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)', fontFamily: 'var(--font-host-grotesk, sans-serif)', textDecoration: 'underline', textUnderlineOffset: '3px' }}>{d.value}</a>
+                  <a href={d.href} style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'underline', textUnderlineOffset: '3px' }}>{d.value}</a>
                 ) : (
-                  <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)', fontFamily: 'var(--font-host-grotesk, sans-serif)' }}>{d.value}</span>
+                  <span>{d.value}</span>
                 )}
-              </div>
+              </p>
             ))}
           </div>
         </div>
