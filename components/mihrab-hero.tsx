@@ -195,7 +195,7 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
   }
 
   const handleVerifyOtp = async () => {
-    if (otpCode.length !== 6) { setAuthError('Please enter the 6-digit code'); return }
+    if (otpCode.length < 6) { setAuthError('Please enter the full code'); return }
     setAuthError('')
     setAuthLoading(true)
 
@@ -798,10 +798,10 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
                         <div>
                           <label className="text-xs font-medium text-gray-500 mb-1 block">6-digit code</label>
                           <input type="text" value={otpCode}
-                            onChange={e => { setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6)); setAuthError('') }}
+                            onChange={e => { setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 8)); setAuthError('') }}
                             onKeyDown={e => e.key === 'Enter' && handleVerifyOtp()}
-                            placeholder="123456"
-                            maxLength={6}
+                            placeholder="12345678"
+                            maxLength={8}
                             className="w-full px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-800 outline-none focus:border-gray-400 transition-colors bg-gray-50 tracking-widest text-center text-lg font-medium"
                           />
                         </div>
@@ -830,9 +830,9 @@ export function MihrabHero({ onSearch }: { onSearch: (q: string) => void }) {
                     </>
                   ) : (
                     <>
-                      <button onClick={handleVerifyOtp} disabled={authLoading || otpCode.length !== 6}
+                      <button onClick={handleVerifyOtp} disabled={authLoading || otpCode.length < 6}
                         className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all"
-                        style={{ backgroundColor: otpCode.length === 6 ? COLORS.navy : '#e5e7eb', color: otpCode.length === 6 ? 'white' : '#9ca3af' }}>
+                        style={{ backgroundColor: otpCode.length >= 6 ? COLORS.navy : '#e5e7eb', color: otpCode.length >= 6 ? 'white' : '#9ca3af' }}>
                         {authLoading ? 'Verifying...' : 'Show my resources →'}
                       </button>
                       <button onClick={handleSkip}
