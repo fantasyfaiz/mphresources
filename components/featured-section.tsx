@@ -17,6 +17,7 @@ const FEATURED = [
     secondary: { label: "Instagram", href: "https://www.instagram.com/mbsanational" },
     accent: "#0F1D3A",
     mihrab: true,
+    mihrabImage: "/images/navybluecard-mihrab.png",
   },
   {
     id: "quran",
@@ -32,6 +33,7 @@ const FEATURED = [
     secondary: null,
     accent: "#2E5A6C",
     mihrab: true,
+    mihrabImage: "/images/lightbluecard-mihrab.png",
   },
   {
     id: "ummat",
@@ -47,6 +49,7 @@ const FEATURED = [
     secondary: null,
     accent: "#1a3a2a",
     mihrab: true,
+    mihrabImage: "/images/greencard-mihrab.png",
   },
 ]
 
@@ -65,7 +68,7 @@ function FeaturedCard({ item, index }: { item: typeof FEATURED[0]; index: number
 
   return (
     <>
-      <style>{`@keyframes mihrabPulse { 0%,100%{opacity:0.12} 50%{opacity:0.3} }`}</style>
+      <style>{`@keyframes mihrabPulse { 0%,100%{opacity:0} 50%{opacity:0.48} }`}</style>
       <div
         ref={ref}
         style={{
@@ -83,24 +86,26 @@ function FeaturedCard({ item, index }: { item: typeof FEATURED[0]; index: number
           overflow: 'hidden',
         }}
       >
-        {/* Mihrab background PNG */}
-        {item.mihrab && (
-          <div style={{
-            position: 'absolute', bottom: 0, right: '-10px',
-            width: '240px', height: '100%',
-            backgroundImage: 'url(/images/Mihrab_design.png)',
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'bottom right',
-            animation: 'mihrabPulse 1.5s ease-in-out infinite',
-            pointerEvents: 'none',
-          }} />
+        {/* Mihrab PNG — bottom right, ~50% card height */}
+        {item.mihrab && item.mihrabImage && (
+          <img
+            src={item.mihrabImage}
+            alt=""
+            aria-hidden="true"
+            style={{
+              position: 'absolute', bottom: '0', right: '12px',
+              height: '58%', width: 'auto',
+              animation: 'mihrabPulse 4s ease-in-out infinite',
+              pointerEvents: 'none',
+              zIndex: 0,
+            }}
+          />
         )}
 
         {/* Grain overlay */}
         <div style={{
           position: 'absolute', inset: 0, borderRadius: '20px',
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E")',
+          backgroundImage: "url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E")",
           opacity: 0.12, pointerEvents: 'none', zIndex: 2,
         }} />
 
