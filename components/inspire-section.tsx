@@ -129,29 +129,11 @@ export function InspireSection() {
 
           {/* Signature */}
           <div ref={block3.ref} style={fadeStyle(block3.visible, "0.2s")}>
-            <div style={{ display: "inline-block" }}>
-              <p
-                style={{
-                  fontFamily: "'Caveat', cursive",
-                  fontSize: "1.5rem",
-                  fontWeight: 400,
-                  color: "#1a1a1a",
-                  lineHeight: 1.2,
-                  letterSpacing: "0.01em",
-                  marginBottom: "4px",
-                }}
-              >
-                Sincerely, Faiz Ahmed
-              </p>
-              <img
-                src="/images/sketch-underline.png"
-                alt=""
-                aria-hidden="true"
-                className="signature-underline"
-                style={{ display: 'block', height: '14px', objectFit: 'fill', opacity: 0.85 }}
-              />
-              <style>{`.signature-underline { width: 220px; } @media (max-width: 767px) { .signature-underline { width: 265px; } }`}</style>
-            </div>
+            <img
+              src="/images/Signature.png"
+              alt="Sincerely, Faiz Ahmed"
+              style={{ display: 'block', width: '280px', height: 'auto' }}
+            />
           </div>
 
           {/* CTA */}
