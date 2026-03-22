@@ -31,6 +31,7 @@ function dotLabel(r: CardResource): string {
   if (r.name === 'Iqra Fellowship') return 'Applications closed'
   if (r.name === 'Dr. Shakir Scholarship' || r.name === 'Razia Sheikh Scholarship') return 'Closes Apr 30'
   if (r.name === 'Muslim Public Service Network Fellowship') return 'Rolling: Mar 31 · Late: May 1'
+  if (r.name === 'Muslim Professionals') return '5,890+ members'
   if (!r.members || r.members === 'N/A') {
     if (r.section === 'Scholarships') return 'Open applications'
     if (r.section === 'Fellowships')  return 'Accepting fellows'
@@ -183,7 +184,7 @@ function CardModal({ resource, onClose }: { resource: CardResource; onClose: () 
             <Image src={resource.logo || '/placeholder.png'} alt={resource.name} width={48} height={48} unoptimized className="object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
           </div>
           <div>
-            <h2 className="font-semibold text-xl text-gray-900">{resource.name}</h2>
+            <h2 className="font-semibold text-xl text-gray-900">{resource.name === 'Muslim Professionals' ? '#muslimprofessionals' : resource.name}</h2>
             <p className="text-sm text-gray-500 mt-0.5">{resource.subtitle}</p>
           </div>
         </div>
@@ -410,7 +411,7 @@ function ResourceCard({ resource, isFirst, onCardClick }: { resource: CardResour
       {/* Below card content */}
       <div className="mt-3 space-y-2">
         <div>
-          <h3 className="font-medium text-sm text-gray-900 leading-snug">{resource.name}</h3>
+          <h3 className="font-medium text-sm text-gray-900 leading-snug">{resource.name === 'Muslim Professionals' ? '#muslimprofessionals' : resource.name}</h3>
           <p className="text-xs text-gray-400 mt-0.5">{resource.subtitle}</p>
         </div>
 
