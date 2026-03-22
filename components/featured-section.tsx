@@ -26,7 +26,7 @@ const FEATURED = [
     description: "Build something meaningful at the intersection of technology and the Quran. Open to developers, designers, and dreamers. $10k in prizes. Hosted by Provision Capital.",
     details: [
       { label: "Prize pool", value: "$10,000", href: null },
-      { label: "Host", value: "Provision Capital", href: null },
+      { label: "Host", value: "Provision Capital", href: "https://launch.provisioncapital.com/quran-hackathon" },
     ],
     cta: { label: "Apply now", href: "https://launch.provisioncapital.com/quran-hackathon" },
     secondary: null,
@@ -97,8 +97,15 @@ function FeaturedCard({ item, index }: { item: typeof FEATURED[0]; index: number
           }} />
         )}
 
+        {/* Grain overlay */}
+        <div style={{
+          position: 'absolute', inset: 0, borderRadius: '20px',
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E")',
+          opacity: 0.12, pointerEvents: 'none', zIndex: 2,
+        }} />
+
         {/* Content */}
-        <div style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ position: 'relative', zIndex: 3 }}>
           {/* Tag row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
             <span style={{ fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', fontFamily: 'var(--font-host-grotesk, sans-serif)' }}>
@@ -137,7 +144,7 @@ function FeaturedCard({ item, index }: { item: typeof FEATURED[0]; index: number
         </div>
 
         {/* CTAs */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center', position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center', position: 'relative', zIndex: 3 }}>
           <a href={item.cta.href} target="_blank" rel="noopener noreferrer"
             style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px', fontWeight: 600, color: item.accent, backgroundColor: 'white', borderRadius: '999px', padding: '12px 22px', textDecoration: 'none', fontFamily: 'var(--font-host-grotesk, sans-serif)', transition: 'opacity 0.2s' }}
             onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
